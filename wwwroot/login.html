@@ -1,0 +1,630 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Lanka Police - Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --error-red: #ea4335;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            padding: 2rem;
+            margin: 2rem auto;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            margin-bottom: 1rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            text-align: center;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--text-gray);
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 0.8rem 2.5rem 0.8rem 1rem;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+                transition: border-color 0.3s;
+            }
+
+                .form-group input:focus {
+                    outline: none;
+                    border-color: var(--primary-blue);
+                    box-shadow: 0 0 0 2px var(--light-blue);
+                }
+
+            .form-group i {
+                position: absolute;
+                right: 1rem;
+                top: 2.3rem;
+                color: var(--text-gray);
+            }
+
+            .form-group.error input {
+                border-color: var(--error-red);
+            }
+
+        .error-message {
+            color: var(--error-red);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .submit-button:hover {
+                background: var(--hover-blue);
+            }
+
+            .submit-button.loading {
+                opacity: 0.7;
+                cursor: not-allowed;
+            }
+
+            .submit-button i {
+                margin-right: 0.5rem;
+            }
+
+        .login-options {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+            .login-options a {
+                color: var(--primary-blue);
+                text-decoration: none;
+                font-size: 0.9rem;
+            }
+
+                .login-options a:hover {
+                    text-decoration: underline;
+                }
+
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+            .login-divider span {
+                flex: 1;
+                height: 1px;
+                background: #ddd;
+            }
+
+            .login-divider p {
+                margin: 0 1rem;
+                color: var(--text-gray);
+                font-size: 0.9rem;
+            }
+
+        .login-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .login-type-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .login-type-btn:hover {
+                background: var(--light-gray);
+            }
+
+            .login-type-btn.active {
+                border-color: var(--primary-blue);
+                color: var(--primary-blue);
+                background: var(--light-blue);
+            }
+
+            .login-type-btn i {
+                margin-right: 0.5rem;
+            }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+            .notification.show {
+                transform: translateX(0);
+            }
+
+            .notification.success {
+                border-left: 4px solid #34a853;
+            }
+
+            .notification.error {
+                border-left: 4px solid var(--error-red);
+            }
+
+            .notification i {
+                font-size: 1.2rem;
+            }
+
+            .notification.success i {
+                color: #34a853;
+            }
+
+            .notification.error i {
+                color: var(--error-red);
+            }
+
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="logo-text">Sri Lanka Police</div>
+        </div>
+
+        <h2 class="form-title">Login to Admin Panel</h2>
+
+        <div class="login-buttons">
+            <button class="login-type-btn active" id="adminLoginBtn">
+                <i class="fas fa-user-shield"></i> Admin
+            </button>
+            <button class="login-type-btn" id="officerLoginBtn">
+                <i class="fas fa-user-tie"></i> Officer
+            </button>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <i class="fas fa-envelope"></i>
+                <div class="error-message" id="emailError">Please enter a valid email address</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                <i class="fas fa-lock"></i>
+                <div class="error-message" id="passwordError">Password is required</div>
+            </div>
+
+            <button type="submit" class="submit-button" id="loginButton">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+
+        <!--<div class="login-options">
+            <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+        </div>
+
+        <div class="login-divider">
+            <span></span>
+            <p>OR</p>
+            <span></span>
+        </div>
+
+        <div class="login-options">
+            <a href="#" id="citizenPortalLink">Go to Citizen Portal</a>
+        </div>
+    </div>-->
+
+    <div class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </div>
+
+    <!-- JavaScript will be included separately -->
+    <script>
+        // *** Replace the entire script section in login.html with this code ***
+
+        // Declare loginType in the global scope
+        let loginType = 'admin'; // Default login type
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize the login page
+            setupEventListeners();
+            checkRedirectParams();
+        });
+
+        function setupEventListeners() {
+            // Login form submission
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                validateAndSubmit();
+            });
+
+            // Toggle between admin and officer login
+            document.getElementById('adminLoginBtn').addEventListener('click', function () {
+                setLoginType('admin');
+            });
+
+            document.getElementById('officerLoginBtn').addEventListener('click', function () {
+                setLoginType('officer');
+            });
+
+            // Handle input validation
+            document.getElementById('email').addEventListener('input', function () {
+                validateEmail();
+            });
+
+            document.getElementById('password').addEventListener('input', function () {
+                validatePassword();
+            });
+
+            // Forgot password link
+            const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showNotification('Password reset functionality is coming soon.', 'info');
+                });
+            }
+
+            // Citizen portal link
+            const citizenPortalLink = document.getElementById('citizenPortalLink');
+            if (citizenPortalLink) {
+                citizenPortalLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    // Redirect to citizen login page if it exists
+                    window.location.href = 'citizen-login.html';
+                });
+            }
+        }
+
+        function setLoginType(type) {
+            loginType = type;
+
+            // Update UI to show active login type
+            if (type === 'admin') {
+                document.getElementById('adminLoginBtn').classList.add('active');
+                document.getElementById('officerLoginBtn').classList.remove('active');
+                document.querySelector('.form-title').textContent = 'Login to Admin Panel';
+            } else {
+                document.getElementById('adminLoginBtn').classList.remove('active');
+                document.getElementById('officerLoginBtn').classList.add('active');
+                document.querySelector('.form-title').textContent = 'Login to Officer Portal';
+            }
+        }
+
+        function validateEmail() {
+            const emailInput = document.getElementById('email');
+            const emailGroup = emailInput.parentElement;
+            const emailError = document.getElementById('emailError');
+
+            // Email validation regex pattern
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(emailInput.value)) {
+                emailGroup.classList.add('error');
+                emailError.textContent = 'Please enter a valid email address';
+                return false;
+            } else {
+                emailGroup.classList.remove('error');
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordGroup = passwordInput.parentElement;
+            const passwordError = document.getElementById('passwordError');
+
+            if (passwordInput.value.length < 1) {
+                passwordGroup.classList.add('error');
+                passwordError.textContent = 'Password is required';
+                return false;
+            } else {
+                passwordGroup.classList.remove('error');
+                return true;
+            }
+        }
+
+        function validateAndSubmit() {
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+
+            if (isEmailValid && isPasswordValid) {
+                // Proceed with login
+                processLogin();
+            }
+        }
+
+        function processLogin() {
+            // Show loading state
+            const loginButton = document.getElementById('loginButton');
+            loginButton.disabled = true;
+            loginButton.classList.add('loading');
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+            // Get credentials
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Determine API endpoint based on login type
+            let apiUrl = '';
+
+            if (loginType === 'admin') {
+                apiUrl = 'https://localhost:5001/api/Admin/Login';
+            } else {
+                apiUrl = 'https://localhost:5001/api/PoliceOfficer/Login';
+            }
+
+            console.log('Sending login request to:', apiUrl);
+
+            // Make the login request
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Email: email,
+                    PasswordHash: password
+                })
+            })
+                .then(response => {
+                    // Log the response status for debugging
+                    console.log('Response status:', response.status);
+
+                    // Check if the response is ok
+                    if (!response.ok) {
+                        // Try to parse error message
+                        return response.json().then(errorData => {
+                            throw new Error(errorData.message || 'Login failed');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Login successful
+                    console.log('Login successful. Response data:', data);
+
+                    // Clear any previous auth data
+                    clearAuthData();
+
+                    // Store the token - lowercase as returned by our updated API
+                    localStorage.setItem('token', data.token);
+
+                    // Store other useful information
+                    localStorage.setItem('email', data.email);
+
+                    if (loginType === 'admin') {
+                        localStorage.setItem('userRole', 'admin');
+                        if (data.adminId) {
+                            localStorage.setItem('userId', data.adminId.toString());
+                        }
+                    } else {
+                        localStorage.setItem('userRole', 'officer');
+                        if (data.officerID) {
+                            localStorage.setItem('userId', data.officerID.toString());
+                        }
+                    }
+
+                    // Store any additional data provided
+                    if (data.fullName) {
+                        localStorage.setItem('fullName', data.fullName);
+                    }
+
+                    // Show success notification
+                    showNotification('Login successful. Redirecting...', 'success');
+
+                    // Redirect to the appropriate dashboard
+                    setTimeout(() => {
+                        if (loginType === 'admin') {
+                            window.location.href = 'admin-dashboard.html'; // Admin dashboard
+                        } else {
+                            window.location.href = 'home.html'; // Officer dashboard
+                        }
+                    }, 1000);
+                })
+                .catch(error => {
+                    console.error('Login error:', error);
+
+                    // Show error notification
+                    showNotification(error.message || 'Login failed. Please check your credentials.', 'error');
+
+                    // Reset button state
+                    loginButton.disabled = false;
+                    loginButton.classList.remove('loading');
+                    loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                });
+        }
+
+        // Helper function to clear all auth data
+        function clearAuthData() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('email');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('fullName');
+        }
+
+        function checkRedirectParams() {
+            // Check URL parameters for any redirect messages or errors
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            const error = urlParams.get('error');
+            const logout = urlParams.get('logout');
+
+            if (logout === 'true') {
+                // User has been logged out
+                showNotification('You have been successfully logged out.', 'success');
+            }
+
+            if (message) {
+                // Display redirect message
+                showNotification(decodeURIComponent(message), 'info');
+            }
+
+            if (error) {
+                // Display error message
+                showNotification(decodeURIComponent(error), 'error');
+            }
+        }
+
+        function showNotification(message, type) {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+
+            // Add icon based on type
+            const icon = document.createElement('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'info') {
+                icon.className = 'fas fa-info-circle';
+            }
+            notification.appendChild(icon);
+
+            // Add message text
+            const messageText = document.createElement('span');
+            messageText.textContent = ' ' + message;
+            notification.appendChild(messageText);
+
+            document.body.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide and remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Reports Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+            .user-nav button {
+                background: transparent;
+                border: 1px solid white;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+                .user-nav button:hover {
+                    background: white;
+                    color: var(--primary-blue);
+                }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+            .breadcrumb a {
+                color: var(--primary-blue);
+                text-decoration: none;
+                margin-right: 0.5rem;
+            }
+
+            .breadcrumb span {
+                margin-right: 0.5rem;
+            }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .action-button:hover {
+                background: var(--hover-blue);
+            }
+
+        .reports-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .filters {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 200px;
+        }
+
+            .filter-group label {
+                font-size: 0.8rem;
+                color: var(--text-gray);
+                margin-bottom: 0.3rem;
+            }
+
+            .filter-group select, .filter-group input {
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 0.9rem;
+            }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-self: flex-end;
+            margin-top: 1.3rem;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .search-bar input {
+                flex: 1;
+                padding: 0.8rem;
+                border: 1px solid #ddd;
+                border-radius: 5px 0 0 5px;
+                font-size: 1rem;
+            }
+
+            .search-bar button {
+                padding: 0.8rem 1.2rem;
+                background: var(--primary-blue);
+                color: white;
+                border: none;
+                border-radius: 0 5px 5px 0;
+                cursor: pointer;
+            }
+
+        .results-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            border-bottom: 1px solid #eee;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+
+        .status-in-progress {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-resolved {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+            .action-icons i {
+                cursor: pointer;
+                font-size: 1.2rem;
+                color: var(--text-gray);
+                transition: color 0.3s ease;
+            }
+
+                .action-icons i:hover {
+                    color: var(--primary-blue);
+                }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+                color: var(--primary-dark);
+            }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--text-gray);
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                width: 100%;
+                padding: 0.8rem;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+
+            .form-group textarea {
+                min-height: 100px;
+                resize: vertical;
+            }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .report-details {
+            padding: 1.5rem 0;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+            .detail-row.full-width {
+                flex-direction: column;
+            }
+
+        .detail-label {
+            width: 150px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .description-box {
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .notification.show {
+                transform: translateX(0);
+            }
+
+            .notification.success {
+                border-left: 4px solid #4caf50;
+            }
+
+            .notification.error {
+                border-left: 4px solid #f44336;
+            }
+
+            .notification i {
+                font-size: 1.2rem;
+            }
+
+            .notification.success i {
+                color: #4caf50;
+            }
+
+            .notification.error i {
+                color: #f44336;
+            }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+            .pagination button {
+                padding: 0.5rem 1rem;
+                border: 1px solid #ddd;
+                background: white;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+                .pagination button.active {
+                    background: var(--primary-blue);
+                    color: white;
+                    border-color: var(--primary-blue);
+                }
+
+            .pagination span.ellipsis {
+                display: flex;
+                align-items: center;
+                padding: 0 0.5rem;
+            }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        /* Styles for citizen email display */
+        .citizen-email {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        .not-available {
+            color: #999;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-actions {
+                align-self: stretch;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Officer</span>
+            <!--<i class="fas fa-bell" style="cursor: pointer;"></i>-->
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="home.html">Home</a>
+            <span><</span>
+            <span>Police Reports</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Police Reports</h1>
+            <button class="action-button" id="newReportBtn">
+                <i class="fas fa-plus"></i> New Report
+            </button>
+        </div>
+
+        <div class="reports-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by ID, report type, citizen name...">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="typeFilter">Report Type</label>
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="Complaint">Complaint</option>
+                        <option value="Incident">Incident</option>
+                        <option value="Investigation">Investigation</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Missing Person">Missing Person</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="startDate">From Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">To Date</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="filter-actions">
+                    <button type="button" class="filter-button" id="applyFilters">Apply Filters</button>
+                    <button type="button" class="reset-button" id="resetFilters">Reset Filters</button>
+                </div>
+            </div>
+
+            <div class="results-summary">
+                <p>Showing <span id="reportCount">0</span> reports</p>
+                <div id="loadingIndicator" class="loading-spinner" style="display: none;"></div>
+            </div>
+
+            <table id="reportsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Citizen</th>
+                        <th>Report Type</th>
+                        <th>Date Requested</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reportsTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No police reports found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- New Report Modal -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">New Police Report</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="reportForm">
+                <input type="hidden" id="reportId">
+                <div class="form-group">
+                    <label for="citizenId">Citizen ID</label>
+                    <input type="number" id="citizenId" required>
+                </div>
+                <div class="form-group">
+                    <label for="reportType">Report Type</label>
+                    <select id="reportType" required>
+                        <option value="">Select Type</option>
+                        <option value="Complaint">Complaint</option>
+                        <option value="Incident">Incident</option>
+                        <option value="Investigation">Investigation</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Missing Person">Missing Person</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" placeholder="Enter detailed description of the report..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button" id="submitButton">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Report Details Modal -->
+    <div class="modal" id="viewReportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Report Details</h2>
+                <button class="close-modal" id="closeViewModal">&times;</button>
+            </div>
+            <div class="report-details">
+                <div class="detail-row">
+                    <div class="detail-label">Report ID:</div>
+                    <div class="detail-value" id="viewReportId"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Citizen:</div>
+                    <div class="detail-value" id="viewCitizenName"></div>
+                </div>
+                <!-- New citizen email row -->
+                <div class="detail-row">
+                    <div class="detail-label">Citizen Email:</div>
+                    <div class="detail-value" id="viewCitizenEmail" class="citizen-email">Not available</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Report Type:</div>
+                    <div class="detail-value" id="viewReportType"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Date Requested:</div>
+                    <div class="detail-value" id="viewDateRequested"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status:</div>
+                    <div class="detail-value">
+                        <span id="viewStatus" class="status-pill"></span>
+                    </div>
+                </div>
+                <div class="detail-row full-width">
+                    <div class="detail-label">Description:</div>
+                    <div class="detail-value description-box" id="viewDescription"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-button" id="editFromViewBtn">
+                    <i class="fas fa-edit"></i> Edit Report
+                </button>
+                <button class="cancel-button" id="closeViewBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in (token exists)
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login if no token
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Initialize the page
+            loadPoliceReports();
+            setupEventListeners();
+        });
+
+        let currentReports = []; // Store the current reports data
+        const reportsPerPage = 10;
+        let currentPage = 1;
+
+        function setupEventListeners() {
+            // New Report button
+            document.getElementById('newReportBtn').addEventListener('click', function () {
+                document.getElementById('modalTitle').textContent = 'New Police Report';
+                document.getElementById('reportForm').reset();
+                document.getElementById('reportId').value = '';
+                document.getElementById('reportModal').style.display = 'flex';
+            });
+
+            // Close modal buttons
+            document.getElementById('closeModal').addEventListener('click', function () {
+                document.getElementById('reportModal').style.display = 'none';
+            });
+
+            document.getElementById('cancelForm').addEventListener('click', function () {
+                document.getElementById('reportModal').style.display = 'none';
+            });
+
+            // Form submission
+            document.getElementById('reportForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitReportForm();
+            });
+
+            // Close view modal buttons
+            document.getElementById('closeViewModal').addEventListener('click', function () {
+                document.getElementById('viewReportModal').style.display = 'none';
+            });
+
+            document.getElementById('closeViewBtn').addEventListener('click', function () {
+                document.getElementById('viewReportModal').style.display = 'none';
+            });
+
+            // Edit from view button
+            document.getElementById('editFromViewBtn').addEventListener('click', function () {
+                const reportId = document.getElementById('viewReportId').textContent;
+                document.getElementById('viewReportModal').style.display = 'none';
+
+                // Find and edit the report
+                const report = currentReports.find(r => r.id == reportId);
+                if (report) {
+                    editReport(report.id);
+                }
+            });
+
+            // Apply filters button
+            document.getElementById('applyFilters').addEventListener('click', function () {
+                applyFilters();
+            });
+
+            // Reset filters button
+            document.getElementById('resetFilters').addEventListener('click', function () {
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('typeFilter').value = '';
+                document.getElementById('startDate').value = '';
+                document.getElementById('endDate').value = '';
+                loadPoliceReports(); // Reload all reports
+            });
+
+            // Date range inputs
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+
+            startDateInput.addEventListener('change', function () {
+                if (startDateInput.value) {
+                    endDateInput.min = startDateInput.value;
+                } else {
+                    endDateInput.min = '';
+                }
+            });
+
+            endDateInput.addEventListener('change', function () {
+                if (endDateInput.value) {
+                    startDateInput.max = endDateInput.value;
+                } else {
+                    startDateInput.max = '';
+                }
+            });
+
+            // Search button
+            document.getElementById('searchButton').addEventListener('click', function () {
+                const searchTerm = document.getElementById('searchInput').value.trim();
+                if (searchTerm) {
+                    searchReports(searchTerm);
+                } else {
+                    loadPoliceReports(); // If search is empty, load all reports
+                }
+            });
+
+            // Search input - search on Enter key
+            document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = e.target.value.trim();
+                    if (searchTerm) {
+                        searchReports(searchTerm);
+                    } else {
+                        loadPoliceReports(); // If search is empty, load all reports
+                    }
+                }
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        }
+
+        function loadPoliceReports() {
+            showLoading(true);
+            document.getElementById('noDataMessage').style.display = 'none';
+
+            fetch('https://localhost:5001/api/PoliceReports', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch police reports');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    currentReports = data;
+                    currentPage = 1; // Reset to first page
+                    displayReports(currentPage);
+                    setupPagination();
+                    updateReportCount(data.length);
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error loading police reports:', error);
+                    document.getElementById('reportsTableBody').innerHTML = '';
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    showLoading(false);
+                    showNotification('Error loading reports: ' + error.message, 'error');
+                });
+        }
+
+        function applyFilters() {
+            showLoading(true);
+
+            // Get filter values
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            fetch('https://localhost:5001/api/PoliceReports', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch police reports');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Filter the data based on selected filters
+                    let filteredData = data;
+
+                    if (statusFilter) {
+                        filteredData = filteredData.filter(report => report.status === statusFilter);
+                    }
+
+                    if (typeFilter) {
+                        filteredData = filteredData.filter(report => report.reportType === typeFilter);
+                    }
+
+                    // Date range filtering
+                    if (startDate) {
+                        const startDateObj = new Date(startDate);
+                        startDateObj.setHours(0, 0, 0, 0);
+                        filteredData = filteredData.filter(report => {
+                            const reportDate = new Date(report.dateRequested);
+                            return reportDate >= startDateObj;
+                        });
+                    }
+
+                    if (endDate) {
+                        const endDateObj = new Date(endDate);
+                        endDateObj.setHours(23, 59, 59, 999);
+                        filteredData = filteredData.filter(report => {
+                            const reportDate = new Date(report.dateRequested);
+                            return reportDate <= endDateObj;
+                        });
+                    }
+
+                    currentReports = filteredData;
+                    currentPage = 1; // Reset to first page when filters change
+                    displayReports(currentPage);
+                    setupPagination();
+                    updateReportCount(filteredData.length);
+                    showLoading(false);
+
+                    // Show notification about filter results
+                    showNotification(`Found ${filteredData.length} reports matching your filters`, 'success');
+                })
+                .catch(error => {
+                    console.error('Error applying filters:', error);
+                    showLoading(false);
+                    showNotification('Error applying filters: ' + error.message, 'error');
+                });
+        }
+
+        function searchReports(searchTerm) {
+            showLoading(true);
+            searchTerm = searchTerm.toLowerCase();
+
+            fetch('https://localhost:5001/api/PoliceReports', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch police reports');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Filter reports based on search term
+                    const filteredData = data.filter(report =>
+                        (report.id && report.id.toString().includes(searchTerm)) ||
+                        (report.reportType && report.reportType.toLowerCase().includes(searchTerm)) ||
+                        (report.status && report.status.toLowerCase().includes(searchTerm)) ||
+                        (report.description && report.description.toLowerCase().includes(searchTerm)) ||
+                        (report.citizen && report.citizen.fullName &&
+                            report.citizen.fullName.toLowerCase().includes(searchTerm)) ||
+                        (report.citizenID && report.citizenID.toString().includes(searchTerm)) ||
+                        // Also search by email if available
+                        (report.citizen && report.citizen.email &&
+                            report.citizen.email.toLowerCase().includes(searchTerm))
+                    );
+
+                    currentReports = filteredData;
+                    currentPage = 1; // Reset to first page when search changes
+                    displayReports(currentPage);
+                    setupPagination();
+                    updateReportCount(filteredData.length);
+                    showLoading(false);
+
+                    showNotification(`Found ${filteredData.length} reports matching "${searchTerm}"`, 'success');
+                })
+                .catch(error => {
+                    console.error('Error searching reports:', error);
+                    showLoading(false);
+                    showNotification('Error searching reports: ' + error.message, 'error');
+                });
+        }
+
+        function viewReportDetails(id) {
+            const report = currentReports.find(r => r.id === id);
+            if (!report) return;
+
+            document.getElementById('viewReportId').textContent = report.id;
+            document.getElementById('viewCitizenName').textContent = report.citizen ? report.citizen.fullName : 'Citizen #' + report.citizenID;
+            document.getElementById('viewReportType').textContent = report.reportType;
+            document.getElementById('viewDescription').textContent = report.description || 'No description provided';
+
+            // Display citizen email if available
+            const citizenEmailElement = document.getElementById('viewCitizenEmail');
+
+            if (report.citizen && report.citizen.email) {
+                citizenEmailElement.textContent = report.citizen.email;
+                citizenEmailElement.classList.remove('not-available');
+            } else if (report.citizenID) {
+                // If we only have citizen ID, fetch the citizen details
+                citizenEmailElement.textContent = 'Loading...';
+                citizenEmailElement.classList.add('not-available');
+
+                // Fetch citizen details to get email
+                fetch(`https://localhost:5001/api/Citizens/${report.citizenID}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch citizen details');
+                        }
+                        return response.json();
+                    })
+                    .then(citizen => {
+                        if (citizen && citizen.email) {
+                            citizenEmailElement.textContent = citizen.email;
+                            citizenEmailElement.classList.remove('not-available');
+                        } else {
+                            citizenEmailElement.textContent = 'Not available';
+                            citizenEmailElement.classList.add('not-available');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching citizen details:', error);
+                        citizenEmailElement.textContent = 'Not available';
+                        citizenEmailElement.classList.add('not-available');
+                    });
+            } else {
+                citizenEmailElement.textContent = 'Not available';
+                citizenEmailElement.classList.add('not-available');
+            }
+
+            const reportDate = new Date(report.dateRequested);
+            document.getElementById('viewDateRequested').textContent = reportDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Set status with appropriate class
+            const statusElement = document.getElementById('viewStatus');
+            statusElement.textContent = report.status;
+            statusElement.className = 'status-pill';
+
+            if (report.status === 'Pending') {
+                statusElement.classList.add('status-pending');
+            } else if (report.status === 'In Progress') {
+                statusElement.classList.add('status-in-progress');
+            } else if (report.status === 'Resolved') {
+                statusElement.classList.add('status-resolved');
+            }
+
+            document.getElementById('viewReportModal').style.display = 'flex';
+        }
+
+        function updateReportCount(count) {
+            document.getElementById('reportCount').textContent = count;
+        }
+
+        function displayReports(page) {
+            const tableBody = document.getElementById('reportsTableBody');
+            tableBody.innerHTML = '';
+
+            const start = (page - 1) * reportsPerPage;
+            const end = start + reportsPerPage;
+            const paginatedItems = currentReports.slice(start, end);
+
+            if (paginatedItems.length === 0) {
+                document.getElementById('noDataMessage').style.display = 'block';
+                document.getElementById('reportsTable').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('noDataMessage').style.display = 'none';
+            document.getElementById('reportsTable').style.display = 'table';
+
+            paginatedItems.forEach(report => {
+                const row = document.createElement('tr');
+
+                // Determine status class
+                let statusClass = 'status-pending';
+                if (report.status === 'In Progress') {
+                    statusClass = 'status-in-progress';
+                } else if (report.status === 'Resolved') {
+                    statusClass = 'status-resolved';
+                }
+
+                // Format date
+                const reportDate = new Date(report.dateRequested);
+                const formattedDate = reportDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                row.innerHTML = `
+    <td>${report.id}</td>
+    <td>${report.citizen ? report.citizen.fullName : 'Citizen #' + report.citizenID}</td>
+    <td>${report.reportType}</td>
+    <td>${formattedDate}</td>
+    <td><span class="${statusClass} status-pill">${report.status}</span></td>
+    <td class="action-icons">
+        <i class="fas fa-eye" title="View Details" onclick="viewReportDetails(${report.id})"></i>
+        <i class="fas fa-edit" title="Edit Report" onclick="editReport(${report.id})"></i>
+        <i class="fas fa-trash-alt" title="Delete Report" onclick="deleteReport(${report.id})"></i>
+    </td>
+`;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupPagination() {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+
+            const totalPages = Math.ceil(currentReports.length / reportsPerPage);
+
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.title = 'Previous Page';
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+
+            // Page buttons - simplified logic to show max 5 pages
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            // Adjust if we're near the end
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            // Create page buttons
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-btn');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.title = 'Next Page';
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+        }
+
+        function updateActivePaginationButton() {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.textContent) === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function editReport(id) {
+            const report = currentReports.find(r => r.id === id);
+            if (!report) return;
+
+            document.getElementById('modalTitle').textContent = 'Edit Police Report';
+            document.getElementById('reportId').value = report.id;
+            document.getElementById('citizenId').value = report.citizenID;
+            document.getElementById('reportType').value = report.reportType;
+            document.getElementById('description').value = report.description || '';
+            document.getElementById('status').value = report.status;
+
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+
+        function deleteReport(id) {
+            if (confirm('Are you sure you want to delete this report?')) {
+                showLoading(true);
+
+                fetch(`https://localhost:5001/api/PoliceReports/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        showLoading(false);
+
+                        if (!response.ok) {
+                            throw new Error('Failed to delete report');
+                        }
+
+                        // Reload the reports after successful deletion
+                        loadPoliceReports();
+
+                        // Show success notification
+                        showNotification('Report deleted successfully', 'success');
+                    })
+                    .catch(error => {
+                        showLoading(false);
+                        console.error('Error deleting report:', error);
+                        showNotification('Failed to delete report: ' + error.message, 'error');
+                    });
+            }
+        }
+
+        function submitReportForm() {
+            showLoading(true);
+            document.getElementById('submitButton').disabled = true;
+
+            const reportId = document.getElementById('reportId').value;
+            const reportData = {
+                citizenID: parseInt(document.getElementById('citizenId').value),
+                reportType: document.getElementById('reportType').value,
+                description: document.getElementById('description').value,
+                status: document.getElementById('status').value
+            };
+
+            // Add dateRequested for new reports
+            if (!reportId) {
+                reportData.dateRequested = new Date().toISOString();
+            }
+
+            let url, method;
+
+            if (reportId) {
+                // Update existing report
+                reportData.id = parseInt(reportId);
+                url = `https://localhost:5001/api/PoliceReports/${reportId}`;
+                method = 'PUT';
+            } else {
+                // Create new report
+                url = 'https://localhost:5001/api/PoliceReports';
+                method = 'POST';
+            }
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify(reportData)
+            })
+                .then(response => {
+                    showLoading(false);
+                    document.getElementById('submitButton').disabled = false;
+
+                    if (!response.ok) {
+                        throw new Error('Failed to save report');
+                    }
+
+                    // Close modal and reload reports
+                    document.getElementById('reportModal').style.display = 'none';
+                    loadPoliceReports();
+
+                    // Show success notification
+                    const message = reportId ? 'Report updated successfully' : 'Report created successfully';
+                    showNotification(message, 'success');
+                })
+                .catch(error => {
+                    showLoading(false);
+                    document.getElementById('submitButton').disabled = false;
+                    console.error('Error saving report:', error);
+                    showNotification('Failed to save report: ' + error.message, 'error');
+                });
+        }
+
+        function showLoading(isLoading) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            if (isLoading) {
+                loadingIndicator.style.display = 'block';
+            } else {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+
+            // Add icon based on type
+            const icon = document.createElement('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            }
+            notification.appendChild(icon);
+
+            // Add message text
+            const messageText = document.createElement('span');
+            messageText.textContent = message;
+            notification.appendChild(messageText);
+
+            document.body.appendChild(notification);
+
+            // Fade in
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 5000);
+        }
+
+        // Make these functions globally accessible for the onclick attributes
+        window.viewReportDetails = viewReportDetails;
+        window.editReport = editReport;
+        window.deleteReport = deleteReport;
+    </script>
+</body>
+</html>

@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robbery Reports Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --accent-green: #34a853;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+            .user-nav button {
+                background: transparent;
+                border: 1px solid white;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+                .user-nav button:hover {
+                    background: white;
+                    color: var(--primary-blue);
+                }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+            .breadcrumb a {
+                color: var(--primary-blue);
+                text-decoration: none;
+                margin-right: 0.5rem;
+            }
+
+            .breadcrumb span {
+                margin-right: 0.5rem;
+            }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .action-button:hover {
+                background: var(--hover-blue);
+            }
+
+        .reports-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .filters {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 200px;
+        }
+
+            .filter-group label {
+                font-size: 0.8rem;
+                color: var(--text-gray);
+                margin-bottom: 0.3rem;
+            }
+
+            .filter-group select, .filter-group input {
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 0.9rem;
+            }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-self: flex-end;
+            margin-top: 1.3rem;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-resolved {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-unresolved {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+            .action-icons i {
+                cursor: pointer;
+                font-size: 1.2rem;
+                color: var(--text-gray);
+                transition: color 0.3s ease;
+            }
+
+                .action-icons i:hover {
+                    color: var(--primary-blue);
+                }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+                color: var(--primary-dark);
+            }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--text-gray);
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                width: 100%;
+                padding: 0.8rem;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+
+            .form-group textarea {
+                min-height: 100px;
+                resize: vertical;
+            }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+            .pagination button {
+                padding: 0.5rem 1rem;
+                border: 1px solid #ddd;
+                background: white;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+                .pagination button.active {
+                    background: var(--primary-blue);
+                    color: white;
+                    border-color: var(--primary-blue);
+                }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .notification.show {
+                transform: translateX(0);
+            }
+
+            .notification.success {
+                border-left: 4px solid var(--accent-green);
+            }
+
+            .notification.error {
+                border-left: 4px solid var(--accent-red);
+            }
+
+            .notification i {
+                font-size: 1.2rem;
+            }
+
+            .notification.success i {
+                color: var(--accent-green);
+            }
+
+            .notification.error i {
+                color: var(--accent-red);
+            }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-actions {
+                align-self: stretch;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Officer</span>
+            <!--<i class="fas fa-bell" style="cursor: pointer;"></i>-->
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="home.html">Home</a>
+            <span>></span>
+            <span>Robbery Reports</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Robbery Reports</h1>
+            <button class="action-button" id="newReportBtn">
+                <i class="fas fa-plus"></i> New Report
+            </button>
+        </div>
+
+        <div class="reports-container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="true">Resolved</option>
+                        <option value="false">Unresolved</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="typeFilter">Robbery Type</label>
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="Armed Robbery">Armed Robbery</option>
+                        <option value="Mugging">Mugging</option>
+                        <option value="Burglary">Burglary</option>
+                        <option value="Vehicle Theft">Vehicle Theft</option>
+                        <option value="Home Invasion">Home Invasion</option>
+                        <option value="Commercial Robbery">Commercial Robbery</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="locationFilter">Location</label>
+                    <input type="text" id="locationFilter" placeholder="Search by location">
+                </div>
+                <div class="filter-actions">
+                    <button class="filter-button" id="applyFilters">Apply</button>
+                    <button class="reset-button" id="resetFilters">Reset</button>
+                </div>
+            </div>
+
+            <div id="loadingIndicator" class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading robbery reports...</p>
+            </div>
+
+            <table id="reportsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Citizen</th>
+                        <th>Robbery Type</th>
+                        <th>Location</th>
+                        <th>Robbery Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reportsTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-mask" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No robbery reports found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- New Report Modal -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">New Robbery Report</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="reportForm">
+                <input type="hidden" id="reportId">
+                <div class="form-group">
+                    <label for="citizenId">Citizen ID</label>
+                    <input type="number" id="citizenId" required>
+                </div>
+                <div class="form-group">
+                    <label for="robberyType">Robbery Type</label>
+                    <select id="robberyType" required>
+                        <option value="">Select Type</option>
+                        <option value="Armed Robbery">Armed Robbery</option>
+                        <option value="Mugging">Mugging</option>
+                        <option value="Burglary">Burglary</option>
+                        <option value="Vehicle Theft">Vehicle Theft</option>
+                        <option value="Home Invasion">Home Invasion</option>
+                        <option value="Commercial Robbery">Commercial Robbery</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" placeholder="Detailed description of the robbery incident..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" required placeholder="Precise location where the robbery occurred">
+                </div>
+                <div class="form-group">
+                    <label for="robberyDate">Date of Robbery</label>
+                    <input type="date" id="robberyDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="stolenItems">Stolen Items</label>
+                    <textarea id="stolenItems" placeholder="List of stolen items..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="isResolved">Is Resolved</label>
+                    <select id="isResolved">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="responderId">Responder ID (Optional)</label>
+                    <input type="number" id="responderId" placeholder="Leave empty if no responder assigned yet">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button" id="submitBtn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in (token exists)
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login if no token
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Initialize the page
+            loadRobberyReports();
+            setupEventListeners();
+
+            // Set max date for robbery date input to today
+            document.getElementById('robberyDate').max = new Date().toISOString().split('T')[0];
+        });
+
+        let currentReports = []; // Store the current reports data
+        const reportsPerPage = 10;
+        let currentPage = 1;
+
+        function setupEventListeners() {
+            // New Report button
+            document.getElementById('newReportBtn').addEventListener('click', function () {
+                document.getElementById('modalTitle').textContent = 'New Robbery Report';
+                document.getElementById('reportForm').reset();
+                document.getElementById('reportId').value = '';
+
+                // Set default date to today
+                document.getElementById('robberyDate').value = new Date().toISOString().split('T')[0];
+
+                document.getElementById('reportModal').style.display = 'flex';
+            });
+
+            // Close modal buttons
+            document.getElementById('closeModal').addEventListener('click', function () {
+                document.getElementById('reportModal').style.display = 'none';
+            });
+
+            document.getElementById('cancelForm').addEventListener('click', function () {
+                document.getElementById('reportModal').style.display = 'none';
+            });
+
+            // Form submission
+            document.getElementById('reportForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitReportForm();
+            });
+
+            // Apply filters button
+            document.getElementById('applyFilters').addEventListener('click', function () {
+                applyFilters();
+            });
+
+            // Reset filters button
+            document.getElementById('resetFilters').addEventListener('click', function () {
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('typeFilter').value = '';
+                document.getElementById('locationFilter').value = '';
+                loadRobberyReports();
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        }
+
+        function loadRobberyReports() {
+            showLoading(true);
+
+            fetch('https://localhost:5001/api/RobberyReports', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch robbery reports');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    currentReports = data;
+                    currentPage = 1; // Reset to first page
+                    displayReports(currentPage);
+                    setupPagination();
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error loading robbery reports:', error);
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    showLoading(false);
+                    showNotification('Error loading reports: ' + error.message, 'error');
+                });
+        }
+
+        function applyFilters() {
+            showLoading(true);
+
+            // Get filter values
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value.toLowerCase();
+
+            fetch('https://localhost:5001/api/RobberyReports', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch robbery reports');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Filter the data based on selected filters
+                    let filteredData = data;
+
+                    if (statusFilter) {
+                        const isResolved = statusFilter === 'true';
+                        filteredData = filteredData.filter(report => report.isResolved === isResolved);
+                    }
+
+                    if (typeFilter) {
+                        filteredData = filteredData.filter(report => report.robberyType === typeFilter);
+                    }
+
+                    if (locationFilter) {
+                        filteredData = filteredData.filter(report =>
+                            report.location && report.location.toLowerCase().includes(locationFilter)
+                        );
+                    }
+
+                    currentReports = filteredData;
+                    currentPage = 1; // Reset to first page when filters change
+                    displayReports(currentPage);
+                    setupPagination();
+                    showLoading(false);
+
+                    showNotification(`Found ${filteredData.length} matching reports`, 'success');
+                })
+                .catch(error => {
+                    console.error('Error applying filters:', error);
+                    showLoading(false);
+                    showNotification('Error applying filters: ' + error.message, 'error');
+                });
+        }
+
+        function displayReports(page) {
+            const tableBody = document.getElementById('reportsTableBody');
+            tableBody.innerHTML = '';
+
+            const start = (page - 1) * reportsPerPage;
+            const end = start + reportsPerPage;
+            const paginatedItems = currentReports.slice(start, end);
+
+            if (paginatedItems.length === 0) {
+                document.getElementById('reportsTable').style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('reportsTable').style.display = 'table';
+            document.getElementById('noDataMessage').style.display = 'none';
+
+            paginatedItems.forEach(report => {
+                const row = document.createElement('tr');
+
+                // Format date
+                const robberyDate = new Date(report.robberyDate);
+                const formattedDate = robberyDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                // Determine status class and text
+                const statusClass = report.isResolved ? 'status-resolved' : 'status-unresolved';
+                const statusText = report.isResolved ? 'Resolved' : 'Unresolved';
+
+                row.innerHTML = `
+        <td>${report.reportID}</td>
+        <td>${report.citizen ? report.citizen.fullName : 'Citizen #' + report.citizenID}</td>
+        <td>${report.robberyType}</td>
+        <td>${report.location}</td>
+        <td>${formattedDate}</td>
+        <td><span class="${statusClass} status-pill">${statusText}</span></td>
+        <td class="action-icons">
+            <i class="fas fa-eye" title="View Details" onclick="viewReportDetails(${report.reportID})"></i>
+            <i class="fas fa-edit" title="Edit Report" onclick="editReport(${report.reportID})"></i>
+            <i class="fas fa-trash-alt" title="Delete Report" onclick="deleteReport(${report.reportID})"></i>
+        </td>
+    `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupPagination() {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+
+            const totalPages = Math.ceil(currentReports.length / reportsPerPage);
+
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.title = 'Previous Page';
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+
+            // Create page buttons (show max 5 pages)
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            // Adjust if we're near the end
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-btn');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.title = 'Next Page';
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+        }
+
+        function updateActivePaginationButton() {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.textContent) === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function viewReportDetails(id) {
+            const report = currentReports.find(r => r.reportID === id);
+            if (!report) return;
+
+            // Create a modal to display details
+            const detailsModal = document.createElement('div');
+            detailsModal.className = 'modal';
+            detailsModal.style.display = 'flex';
+
+            const robberyDate = new Date(report.robberyDate);
+            const formattedRobberyDate = robberyDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const reportDate = new Date(report.dateReported);
+            const formattedReportDate = reportDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Determine status class and text
+            const statusClass = report.isResolved ? 'status-resolved' : 'status-unresolved';
+            const statusText = report.isResolved ? 'Resolved' : 'Unresolved';
+
+            detailsModal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Robbery Report Details</h2>
+                    <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                </div>
+                <div class="form-group">
+                    <label>Report ID</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${report.reportID}</div>
+                </div>
+                <div class="form-group">
+                    <label>Citizen</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">
+                        ${report.citizen ? report.citizen.fullName : 'Citizen #' + report.citizenID}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Robbery Type</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${report.robberyType}</div>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${report.location}</div>
+                </div>
+                <div class="form-group">
+                    <label>Robbery Date</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${formattedRobberyDate}</div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px; min-height: 100px;">${report.description || 'No description provided'}</div>
+                </div>
+                <div class="form-group">
+                    <label>Stolen Items</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px; min-height: 100px;">${report.stolenItems || 'No items listed'}</div>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">
+                        <span class="status-pill ${statusClass}">${statusText}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Date Reported</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${formattedReportDate}</div>
+                </div>
+                <div class="form-group">
+                    <label>Assigned Responder</label>
+                    <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">
+                        ${report.responderID ? 'Officer #' + report.responderID : 'No responder assigned'}
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="cancel-button" onclick="this.parentElement.parentElement.parentElement.remove()">Close</button>
+                    <button class="action-button" onclick="editReport(${report.reportID}); this.parentElement.parentElement.parentElement.remove()">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </div>
+            </div>
+        `;
+
+            document.body.appendChild(detailsModal);
+        }
+
+        function editReport(id) {
+            const report = currentReports.find(r => r.reportID === id);
+            if (!report) {
+                showNotification('Report not found', 'error');
+                return;
+            }
+
+            document.getElementById('modalTitle').textContent = 'Edit Robbery Report';
+            document.getElementById('reportId').value = report.reportID;
+            document.getElementById('citizenId').value = report.citizenID;
+            document.getElementById('robberyType').value = report.robberyType || '';
+            document.getElementById('description').value = report.description || '';
+            document.getElementById('location').value = report.location || '';
+
+            // Format date for input field (YYYY-MM-DD)
+            if (report.robberyDate) {
+                const robberyDate = new Date(report.robberyDate);
+                const formattedDate = robberyDate.toISOString().split('T')[0];
+                document.getElementById('robberyDate').value = formattedDate;
+            } else {
+                document.getElementById('robberyDate').value = '';
+            }
+
+            document.getElementById('stolenItems').value = report.stolenItems || '';
+            document.getElementById('isResolved').value = report.isResolved.toString();
+            document.getElementById('responderId').value = report.responderID || '';
+
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+
+        function deleteReport(id) {
+            if (confirm('Are you sure you want to delete this robbery report?')) {
+                fetch(`https://localhost:5001/api/RobberyReports/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete report');
+                        }
+                        // Reload the reports after successful deletion
+                        loadRobberyReports();
+                        showNotification('Report deleted successfully', 'success');
+                    })
+                    .catch(error => {
+                        console.error('Error deleting report:', error);
+                        showNotification('Failed to delete report: ' + error.message, 'error');
+                    });
+            }
+        }
+
+        function submitReportForm() {
+            // Disable the submit button to prevent double submission
+            const submitButton = document.getElementById('submitBtn');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            const reportId = document.getElementById('reportId').value;
+            const reportData = {
+                citizenID: parseInt(document.getElementById('citizenId').value),
+                robberyType: document.getElementById('robberyType').value,
+                description: document.getElementById('description').value || null,
+                location: document.getElementById('location').value,
+                robberyDate: document.getElementById('robberyDate').value, // YYYY-MM-DD format
+                stolenItems: document.getElementById('stolenItems').value || null,
+                isResolved: document.getElementById('isResolved').value === 'true'
+            };
+
+            // Add responderID if provided
+            const responderId = document.getElementById('responderId').value;
+            if (responderId) {
+                reportData.responderID = parseInt(responderId);
+            } else {
+                reportData.responderID = null; // Explicitly set to null if empty
+            }
+
+            let url, method;
+
+            if (reportId) {
+                // Update existing report
+                reportData.reportID = parseInt(reportId);
+
+                // If we're editing, make sure to include the dateReported field from the original report
+                const originalReport = currentReports.find(r => r.reportID === parseInt(reportId));
+                if (originalReport) {
+                    reportData.dateReported = originalReport.dateReported;
+                }
+
+                url = `https://localhost:5001/api/RobberyReports/${reportId}`;
+                method = 'PUT';
+            } else {
+                // Create new report - set current date for new reports
+                reportData.dateReported = new Date().toISOString();
+                url = 'https://localhost:5001/api/RobberyReports';
+                method = 'POST';
+            }
+
+            console.log('Submitting report data:', reportData);
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify(reportData)
+            })
+                .then(async response => {
+                    // For PUT requests that return 204 No Content, simply return an empty object
+                    // This bypasses the JSON parsing entirely for successful updates
+                    if (method === 'PUT' && response.status === 204) {
+                        return {};
+                    }
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        if (errorText) {
+                            try {
+                                const errorJson = JSON.parse(errorText);
+                                throw new Error(errorJson.message || errorJson.title || 'Failed to save report');
+                            } catch (e) {
+                                throw new Error(errorText || `Request failed with status ${response.status}`);
+                            }
+                        } else {
+                            throw new Error(`Request failed with status ${response.status}`);
+                        }
+                    }
+
+                    // For other requests, check if there's content before parsing
+                    const text = await response.text();
+                    return text ? JSON.parse(text) : {};
+                })
+                .then(data => {
+                    // Close modal and reload reports
+                    document.getElementById('reportModal').style.display = 'none';
+                    loadRobberyReports();
+
+                    // Show success message
+                    showNotification(
+                        reportId ? 'Robbery report updated successfully' : 'Robbery report created successfully',
+                        'success'
+                    );
+                })
+                .catch(error => {
+                    console.error('Error saving report:', error);
+                    showNotification('Failed to save report: ' + error.message, 'error');
+                })
+                .finally(() => {
+                    // Re-enable submit button
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Submit';
+                });
+        }
+
+        function showLoading(isLoading) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const tableElement = document.getElementById('reportsTable');
+
+            if (isLoading) {
+                loadingIndicator.style.display = 'block';
+                tableElement.style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'none';
+            } else {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+
+            // Add icon based on type
+            const icon = document.createElement('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            }
+            notification.appendChild(icon);
+
+            // Add message text
+            const messageText = document.createElement('span');
+            messageText.textContent = ' ' + message;
+            notification.appendChild(messageText);
+
+            document.body.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide and remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

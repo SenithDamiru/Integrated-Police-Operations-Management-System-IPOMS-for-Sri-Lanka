@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Officers Management - Sri Lanka Police</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .user-nav button {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-nav button:hover {
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin-right: 0.5rem;
+        }
+
+        .breadcrumb span {
+            margin-right: 0.5rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: var(--hover-blue);
+        }
+
+        .officers-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            padding: 0.8rem 1.2rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .filters {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 0.3rem;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-self: flex-end;
+            margin-top: 1.3rem;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .results-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            border-bottom: 1px solid #eee;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-inactive {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-icons i {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            transition: color 0.3s ease;
+        }
+
+        .action-icons i:hover {
+            color: var(--primary-blue);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-gray);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .officer-details {
+            padding: 1.5rem 0;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .detail-row.full-width {
+            flex-direction: column;
+        }
+
+        .detail-label {
+            width: 150px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid #4caf50;
+        }
+
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i {
+            color: #4caf50;
+        }
+
+        .notification.error i {
+            color: #f44336;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pagination button.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-actions {
+                align-self: stretch;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 85vh;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Administrator</span>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="admin-dashboard.html">Admin Dashboard</a>
+            <span>></span>
+            <span>Police Officers</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Police Officers Management</h1>
+            <button class="action-button" id="newOfficerBtn">
+                <i class="fas fa-plus"></i> New Police Officer
+            </button>
+        </div>
+
+        <div class="officers-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by ID, name, email...">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="roleFilter">Role</label>
+                    <select id="roleFilter">
+                        <option value="">All Roles</option>
+                        <!-- Role options will be loaded dynamically -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="stationFilter">Police Station</label>
+                    <select id="stationFilter">
+                        <option value="">All Stations</option>
+                        <!-- Station options will be loaded dynamically -->
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button type="button" class="filter-button" id="applyFilters">Apply Filters</button>
+                    <button type="button" class="reset-button" id="resetFilters">Reset Filters</button>
+                </div>
+            </div>
+
+            <div class="results-summary">
+                <p>Showing <span id="officerCount">0</span> police officers</p>
+                <div id="loadingIndicator" class="loading-spinner" style="display: none;"></div>
+            </div>
+
+            <table id="officersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Police Station</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="officersTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No police officers found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- New Police Officer Modal -->
+    <div class="modal" id="officerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">New Police Officer</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="officerForm">
+                <input type="hidden" id="officerId">
+
+                <div class="form-group">
+                    <label for="fullName">Full Name*</label>
+                    <input type="text" id="fullName" required placeholder="Enter full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email*</label>
+                    <input type="email" id="email" required placeholder="Enter email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="Enter phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordHash">Password*</label>
+                    <input type="password" id="passwordHash" required placeholder="Enter password">
+                </div>
+
+                <div class="form-group">
+                    <label for="roleId">Role*</label>
+                    <select id="roleId" required>
+                        <option value="">-- Select Role --</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="stationId">Police Station*</label>
+                    <select id="stationId" required>
+                        <option value="">-- Select Police Station --</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateJoined">Date Joined*</label>
+                    <input type="date" id="dateJoined" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="isActive">Status*</label>
+                    <select id="isActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button" id="submitButton">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Officer Details Modal -->
+    <div class="modal" id="viewOfficerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Officer Details</h2>
+                <button class="close-modal" id="closeViewModal">&times;</button>
+            </div>
+            <div class="officer-details">
+                <div class="detail-row">
+                    <div class="detail-label">Officer ID:</div>
+                    <div class="detail-value" id="viewOfficerId"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Full Name:</div>
+                    <div class="detail-value" id="viewFullName"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value" id="viewEmail"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone Number:</div>
+                    <div class="detail-value" id="viewPhoneNumber"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Role:</div>
+                    <div class="detail-value" id="viewRole"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Police Station:</div>
+                    <div class="detail-value" id="viewStation"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Date Joined:</div>
+                    <div class="detail-value" id="viewDateJoined"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status:</div>
+                    <div class="detail-value">
+                        <span id="viewStatus" class="status-pill"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-button" id="editFromViewBtn">
+                    <i class="fas fa-edit"></i> Edit Officer
+                </button>
+                <button class="cancel-button" id="closeViewBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Admin Dashboard</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let officers = [];
+        let roles = [];
+        let stations = [];
+        let currentPage = 1;
+        const pageSize = 10;
+        let totalPages = 0;
+        let apiToken = null;
+        const apiBaseUrl = "https://localhost:5001"; // Base URL for API - adjust as needed
+
+        // Helper function to decode JWT token for debugging
+        function decodeJwtToken(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("Error decoding token:", e);
+                return null;
+            }
+        }
+
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve token from localStorage - use lowercase only to match login page
+            apiToken = localStorage.getItem('token');
+
+            console.log('Token available:', !!apiToken);
+
+            if (!apiToken) {
+                // Redirect to login page if no token found
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Decode and inspect the token for debugging
+            const decodedToken = decodeJwtToken(apiToken);
+            console.log('Decoded token:', decodedToken);
+
+            // Check for role in the token
+            let tokenRole = null;
+            if (decodedToken) {
+                // Look for role in various possible claim formats
+                tokenRole = decodedToken.role ||
+                    decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+                    decodedToken["role"];
+            }
+            console.log('Role from token:', tokenRole);
+
+            // Check if user has admin role
+            const userRole = localStorage.getItem('userRole');
+            console.log('User role from localStorage:', userRole);
+
+            if (userRole !== 'admin') {
+                console.error('Admin role required for Police Officers Management');
+                clearAuthData();
+                window.location.href = 'login.html?error=' + encodeURIComponent('This page requires administrator privileges.');
+                return;
+            }
+
+            // Set user greeting
+            const userName = localStorage.getItem('email') || 'Administrator';
+            document.getElementById('userGreeting').textContent = `Welcome, ${userName}`;
+
+            // Initialize the page
+            initPage();
+
+            // Add event listeners
+            setupEventListeners();
+        });
+
+        // Helper function to clear all auth data
+        function clearAuthData() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('email');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('fullName');
+        }
+
+        // Initialize the page with data
+        async function initPage() {
+            try {
+                // Show loading indicator
+                document.getElementById('loadingIndicator').style.display = 'inline-block';
+
+                // Load roles and stations for filters and form dropdowns
+                await Promise.all([
+                    loadRoles(),
+                    loadStations()
+                ]);
+
+                // Load officers data
+                await loadOfficers();
+
+                // Hide loading indicator
+                document.getElementById('loadingIndicator').style.display = 'none';
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                showNotification('An error occurred while loading data: ' + error.message, 'error');
+                document.getElementById('loadingIndicator').style.display = 'none';
+            }
+        }
+
+        // Load police officers from API
+        async function loadOfficers(searchTerm = '', status = '', roleId = '', stationId = '') {
+            try {
+                // Get fresh token
+                const freshToken = localStorage.getItem('token');
+                console.log('Using token for API call:', freshToken ? 'Token available' : 'No token');
+
+                const url = `${apiBaseUrl}/api/AdminPoliceOfficer`;
+                console.log('Fetching officers from:', url);
+
+                // Log headers for debugging
+                const headers = {
+                    'Authorization': 'Bearer ' + freshToken,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                };
+                console.log('Request headers:', headers);
+
+                // Make the fetch request
+                console.log('Making fetch request to:', url);
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                console.log('Officers API response status:', response.status);
+                console.log('Response headers:', Object.fromEntries([...response.headers.entries()]));
+
+                // Log full response for debugging
+                const responseText = await response.text();
+                console.log('Response text length:', responseText.length);
+                console.log('Response text (first 500 chars):', responseText.substring(0, 500) + (responseText.length > 500 ? '...' : ''));
+
+                // Now try to parse the response as JSON
+                let officersData;
+                try {
+                    officersData = JSON.parse(responseText);
+                    console.log('Successfully parsed response as JSON, type:', Array.isArray(officersData) ? 'array' : typeof officersData);
+                } catch (parseError) {
+                    console.error('Error parsing response as JSON:', parseError);
+                    throw new Error(`Failed to parse response: ${responseText.substring(0, 200)}...`);
+                }
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.error('Authentication failed. Redirecting to login...');
+                        clearAuthData();
+                        window.location.href = 'login.html?error=' + encodeURIComponent('Your session has expired. Please log in again.');
+                        return;
+                    }
+                    throw new Error(`Failed to load officers data: ${response.status} - ${responseText.substring(0, 200)}...`);
+                }
+
+                // Store the officers data
+                officers = officersData;
+                console.log('Officers loaded:', officers.length);
+                console.log('Sample officer data:', officers.length > 0 ? officers[0] : 'No officers found');
+
+                // Apply filters if any
+                let filteredOfficers = officers;
+
+                if (searchTerm) {
+                    searchTerm = searchTerm.toLowerCase();
+                    filteredOfficers = filteredOfficers.filter(officer =>
+                        officer.officerID?.toString().includes(searchTerm) ||
+                        (officer.fullName?.toLowerCase() || '').includes(searchTerm) ||
+                        (officer.email?.toLowerCase() || '').includes(searchTerm)
+                    );
+                }
+
+                if (status !== '') {
+                    const isActive = status === 'true';
+                    filteredOfficers = filteredOfficers.filter(officer => officer.isActive === isActive);
+                }
+
+                if (roleId) {
+                    filteredOfficers = filteredOfficers.filter(officer => officer.roleID == roleId);
+                }
+
+                if (stationId) {
+                    filteredOfficers = filteredOfficers.filter(officer => officer.stationID == stationId);
+                }
+
+                // Update the total number of pages
+                totalPages = Math.ceil(filteredOfficers.length / pageSize);
+
+                // Reset to first page when filtering
+                if (searchTerm || status !== '' || roleId || stationId) {
+                    currentPage = 1;
+                }
+
+                // Update officer count
+                document.getElementById('officerCount').textContent = filteredOfficers.length;
+
+                // Paginate and display officers
+                displayOfficers(filteredOfficers);
+                updatePagination();
+
+            } catch (error) {
+                console.error('Error loading officers:', error);
+                showNotification('Failed to load officers data: ' + error.message, 'error');
+            }
+        }
+
+        // Load police roles from API
+        async function loadRoles() {
+            try {
+                // Get fresh token
+                const freshToken = localStorage.getItem('token');
+
+                const url = `${apiBaseUrl}/api/AdminPoliceOfficer/Roles`;
+                console.log('Fetching roles from:', url);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${freshToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                console.log('Roles API response status:', response.status);
+
+                // Log full response text for debugging
+                const responseText = await response.text();
+                console.log('Roles response length:', responseText.length);
+                console.log('Roles response (first 200 chars):', responseText.substring(0, 200) + (responseText.length > 200 ? '...' : ''));
+
+                // Try to parse the response
+                try {
+                    roles = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('Error parsing roles response:', parseError);
+                    throw new Error(`Failed to parse roles response: ${responseText.substring(0, 200)}...`);
+                }
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.error('Authentication failed in loadRoles');
+                        throw new Error('Authentication failed when loading roles');
+                    }
+                    throw new Error(`Failed to load roles data: ${response.status}`);
+                }
+
+                console.log('Roles loaded:', roles.length);
+                console.log('Sample role data:', roles.length > 0 ? roles[0] : 'No roles found');
+
+                // Populate role filters and form dropdown
+                const roleFilter = document.getElementById('roleFilter');
+                const roleFormSelect = document.getElementById('roleId');
+
+                // Clear existing options except the first one
+                roleFilter.innerHTML = '<option value="">All Roles</option>';
+                roleFormSelect.innerHTML = '<option value="">-- Select Role --</option>';
+
+                // Add options for each role
+                roles.forEach(role => {
+                    const filterOption = document.createElement('option');
+                    filterOption.value = role.roleID;
+                    filterOption.textContent = role.roleName;
+                    roleFilter.appendChild(filterOption);
+
+                    const formOption = document.createElement('option');
+                    formOption.value = role.roleID;
+                    formOption.textContent = role.roleName;
+                    roleFormSelect.appendChild(formOption);
+                });
+
+            } catch (error) {
+                console.error('Error loading roles:', error);
+                showNotification('Failed to load roles data: ' + error.message, 'error');
+            }
+        }
+
+        // Load police stations from API
+        async function loadStations() {
+            try {
+                // Get fresh token
+                const freshToken = localStorage.getItem('token');
+
+                const url = `${apiBaseUrl}/api/AdminPoliceOfficer/Stations`;
+                console.log('Fetching stations from:', url);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${freshToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                console.log('Stations API response status:', response.status);
+
+                // Log full response text for debugging
+                const responseText = await response.text();
+                console.log('Stations response length:', responseText.length);
+                console.log('Stations response (first 200 chars):', responseText.substring(0, 200) + (responseText.length > 200 ? '...' : ''));
+
+                // Try to parse the response
+                try {
+                    stations = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('Error parsing stations response:', parseError);
+                    throw new Error(`Failed to parse stations response: ${responseText.substring(0, 200)}...`);
+                }
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.error('Authentication failed in loadStations');
+                        throw new Error('Authentication failed when loading stations');
+                    }
+                    throw new Error(`Failed to load stations data: ${response.status}`);
+                }
+
+                console.log('Stations loaded:', stations.length);
+                console.log('Sample station data:', stations.length > 0 ? stations[0] : 'No stations found');
+
+                // Populate station filters and form dropdown
+                const stationFilter = document.getElementById('stationFilter');
+                const stationFormSelect = document.getElementById('stationId');
+
+                // Clear existing options except the first one
+                stationFilter.innerHTML = '<option value="">All Stations</option>';
+                stationFormSelect.innerHTML = '<option value="">-- Select Police Station --</option>';
+
+                // Add options for each station
+                stations.forEach(station => {
+                    const filterOption = document.createElement('option');
+                    filterOption.value = station.stationID;
+                    filterOption.textContent = station.stationName;
+                    stationFilter.appendChild(filterOption);
+
+                    const formOption = document.createElement('option');
+                    formOption.value = station.stationID;
+                    formOption.textContent = station.stationName;
+                    stationFormSelect.appendChild(formOption);
+                });
+
+            } catch (error) {
+                console.error('Error loading stations:', error);
+                showNotification('Failed to load stations data: ' + error.message, 'error');
+            }
+        }
+
+        // Display officers in the table with pagination
+        function displayOfficers(officersList) {
+            const tableBody = document.getElementById('officersTableBody');
+            const noDataMessage = document.getElementById('noDataMessage');
+
+            // Clear existing rows
+            tableBody.innerHTML = '';
+
+            if (!officersList || officersList.length === 0) {
+                // Show no data message
+                tableBody.style.display = 'none';
+                noDataMessage.style.display = 'block';
+                return;
+            }
+
+            // Show table and hide no data message
+            tableBody.style.display = '';
+            noDataMessage.style.display = 'none';
+
+            // Calculate pagination start and end indices
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, officersList.length);
+
+            // Create table rows for current page
+            for (let i = startIndex; i < endIndex; i++) {
+                const officer = officersList[i];
+
+                // Create row element
+                const row = document.createElement('tr');
+
+                // Find role and station names
+                const roleName = roles.find(r => r.roleID === officer.roleID)?.roleName || 'Unknown';
+                const stationName = stations.find(s => s.stationID === officer.stationID)?.stationName || 'Unknown';
+
+                // Set row HTML with null checks
+                row.innerHTML = `
+            <td>${officer.officerID || 'N/A'}</td>
+            <td>${officer.fullName || 'N/A'}</td>
+            <td>${officer.email || 'N/A'}</td>
+            <td>${stationName}</td>
+            <td>${roleName}</td>
+            <td><span class="status-pill ${officer.isActive ? 'status-active' : 'status-inactive'}">${officer.isActive ? 'Active' : 'Inactive'}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-eye view-officer" data-id="${officer.officerID}" title="View"></i>
+                <i class="fas fa-edit edit-officer" data-id="${officer.officerID}" title="Edit"></i>
+                <i class="fas fa-trash-alt delete-officer" data-id="${officer.officerID}" title="Delete"></i>
+            </td>
+        `;
+
+                // Add row to table
+                tableBody.appendChild(row);
+            }
+
+            // Add event listeners to action buttons
+            addActionListeners();
+        }
+
+        // Update pagination controls
+        function updatePagination() {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+
+            if (totalPages <= 1) {
+                return; // Don't show pagination if only one page
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    refreshOfficers();
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+
+            // Page numbers (show up to 5 pages)
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.toggle('active', i === currentPage);
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    refreshOfficers();
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    refreshOfficers();
+                }
+            });
+            paginationContainer.appendChild(nextButton);
+        }
+
+        // Refresh officers table with current filters
+        function refreshOfficers() {
+            const searchTerm = document.getElementById('searchInput').value;
+            const status = document.getElementById('statusFilter').value;
+            const roleId = document.getElementById('roleFilter').value;
+            const stationId = document.getElementById('stationFilter').value;
+
+            loadOfficers(searchTerm, status, roleId, stationId);
+        }
+
+        // Add event listeners to table action buttons
+        function addActionListeners() {
+            // View officer details
+            document.querySelectorAll('.view-officer').forEach(button => {
+                button.addEventListener('click', event => {
+                    const officerId = event.target.getAttribute('data-id');
+                    viewOfficerDetails(officerId);
+                });
+            });
+
+            // Edit officer
+            document.querySelectorAll('.edit-officer').forEach(button => {
+                button.addEventListener('click', event => {
+                    const officerId = event.target.getAttribute('data-id');
+                    editOfficer(officerId);
+                });
+            });
+
+            // Delete officer
+            document.querySelectorAll('.delete-officer').forEach(button => {
+                button.addEventListener('click', event => {
+                    const officerId = event.target.getAttribute('data-id');
+                    deleteOfficer(officerId);
+                });
+            });
+        }
+
+        // View officer details
+        async function viewOfficerDetails(officerId) {
+            try {
+                // Get fresh token
+                const freshToken = localStorage.getItem('token');
+
+                const url = `${apiBaseUrl}/api/AdminPoliceOfficer/${officerId}`;
+                console.log('Fetching officer details from:', url);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${freshToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                console.log('Officer details API response status:', response.status);
+
+                // Get response text for debugging
+                const responseText = await response.text();
+                console.log('Officer details response (first 200 chars):', responseText.substring(0, 200) + (responseText.length > 200 ? '...' : ''));
+
+                // Try to parse as JSON
+                let officer;
+                try {
+                    officer = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('Error parsing officer details response:', parseError);
+                    throw new Error(`Failed to parse officer details: ${responseText.substring(0, 200)}...`);
+                }
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.error('Authentication failed. Redirecting to login...');
+                        clearAuthData();
+                        window.location.href = 'login.html?error=' + encodeURIComponent('Your session has expired. Please log in again.');
+                        return;
+                    }
+                    throw new Error(`Failed to load officer details: ${response.status} - ${responseText.substring(0, 200)}...`);
+                }
+
+                console.log('Officer details loaded:', officer);
+
+                // Find role and station names
+                const roleName = officer.role?.roleName || 'Unknown';
+                const stationName = officer.station?.stationName || 'Unknown';
+
+                // Populate view modal with officer details
+                document.getElementById('viewOfficerId').textContent = officer.officerID || 'N/A';
+                document.getElementById('viewFullName').textContent = officer.fullName || 'N/A';
+                document.getElementById('viewEmail').textContent = officer.email || 'N/A';
+                document.getElementById('viewPhoneNumber').textContent = officer.phoneNumber || 'Not provided';
+                document.getElementById('viewRole').textContent = roleName;
+                document.getElementById('viewStation').textContent = stationName;
+                document.getElementById('viewDateJoined').textContent = officer.dateJoined ? new Date(officer.dateJoined).toLocaleDateString() : 'N/A';
+
+                const statusElement = document.getElementById('viewStatus');
+                statusElement.textContent = officer.isActive ? 'Active' : 'Inactive';
+                statusElement.className = `status-pill ${officer.isActive ? 'status-active' : 'status-inactive'}`;
+
+                // Store officer ID for edit button
+                document.getElementById('editFromViewBtn').setAttribute('data-id', officer.officerID);
+
+                // Show the modal
+                document.getElementById('viewOfficerModal').style.display = 'flex';
+
+            } catch (error) {
+                console.error('Error loading officer details:', error);
+                showNotification('Failed to load officer details: ' + error.message, 'error');
+            }
+        }
+
+        // Edit officer
+        async function editOfficer(officerId) {
+            try {
+                // Close view modal if open
+                document.getElementById('viewOfficerModal').style.display = 'none';
+
+                // Get fresh token
+                const freshToken = localStorage.getItem('token');
+
+                const url = `${apiBaseUrl}/api/AdminPoliceOfficer/${officerId}`;
+                console.log('Fetching officer for editing from:', url);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${freshToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                console.log('Edit officer API response status:', response.status);
+
+                // Get response text for debugging
+                const responseText = await response.text();
+                console.log('Edit officer response (first 200 chars):', responseText.substring(0, 200) + (responseText.length > 200 ? '...' : ''));
+
+                // Try to parse as JSON
+                let officer;
+                try {
+                    officer = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('Error parsing edit officer response:', parseError);
+                    throw new Error(`Failed to parse officer data for editing: ${responseText.substring(0, 200)}...`);
+                }
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.error('Authentication failed. Redirecting to login...');
+                        clearAuthData();
+                        window.location.href = 'login.html?error=' + encodeURIComponent('Your session has expired. Please log in again.');
+                        return;
+                    }
+                    throw new Error(`Failed to load officer details for editing: ${response.status} - ${responseText.substring(0, 200)}...`);
+                }
+
+                console.log('Officer data for editing loaded:', officer);
+
+                // Format date as YYYY-MM-DD for input field
+                let joinDate = '';
+                if (officer.dateJoined) {
+                    try {
+                        joinDate = new Date(officer.dateJoined).toISOString().split('T')[0];
+                    } catch (dateError) {
+                        console.error('Error formatting date:', dateError);
+                        joinDate = '';
+                    }
+                }
+
+                // Populate form with officer details
+                document.getElementById('modalTitle').textContent = 'Edit Police Officer';
+                document.getElementById('officerId').value = officer.officerID || '';
+                document.getElementById('fullName').value = officer.fullName || '';
+                document.getElementById('email').value = officer.email || '';
+                document.getElementById('phoneNumber').value = officer.phoneNumber || '';
+                document.getElementById('passwordHash').value = ''; // Don't show password hash
+                document.getElementById('passwordHash').required = false; // Password not required for updates
+                document.getElementById('roleId').value = officer.roleID || '';
+                document.getElementById('stationId').value = officer.stationID || '';
+                document.getElementById('dateJoined').value = joinDate;
+                document.getElementById('isActive').value = officer.isActive !== undefined ? officer.isActive.toString() : 'true';
+
+                // Show the modal
+                document.getElementById('officerModal').style.display = 'flex';
+
+            } catch (error) {
+                console.error('Error loading officer details for editing:', error);
+                showNotification('Failed to load officer details for editing: ' + error.message, 'error');
+            }
+        }
+
+        // Delete officer
+        async function deleteOfficer(officerId) {
+            try {
+                // Confirm deletion
+                if (!confirm('Are you sure you want to delete this officer? This action cannot be undone.')) {
+                    return;
+                }
+
+                // Get fresh token
+                const freshToken = localStorage.getItem('token');
+
+                const url = `${apiBaseUrl}/api/AdminPoliceOfficer/${officerId}`;
+                console.log('Deleting officer from:', url);
+
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${freshToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                console.log('Delete officer API response status:', response.status);
+
+                // Get response text for debugging
+                const responseText = await response.text();
+                console.log('Delete officer response:', responseText);
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.error('Authentication failed. Redirecting to login...');
+                        clearAuthData();
+                        window.location.href = 'login.html?error=' + encodeURIComponent('Your session has expired. Please log in again.');
+                        return;
+                    }
+                    throw new Error(`Failed to delete officer: ${response.status} - ${responseText}`);
+                }
+
+                // Show success notification
+                showNotification('Officer deleted successfully.', 'success');
+
+                // Refresh officers list
+                refreshOfficers();
+
+            } catch (error) {
+                console.error('Error deleting officer:', error);
+                showNotification('Failed to delete officer: ' + error.message, 'error');
+            }
+        }
+
+        // Submit officer form (create or update)
+        async function submitOfficerForm(event) {
+            event.preventDefault();
+
+            try {
+                // Get form values
+                const officerId = document.getElementById('officerId').value;
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const phoneNumber = document.getElementById('phoneNumber').value;
+                const passwordHash = document.getElementById('passwordHash').value;
+                const roleId = document.getElementById('roleId').value;
+                const stationId = document.getElementById('stationId').value;
+                const dateJoined = document.getElementById('dateJoined').value;
+                const isActive = document.getElementById('isActive').value === 'true';
+
+                // Create officer object
+                const officerData = {
+                    fullName,
+                    email,
+                    phoneNumber,
+                    roleID: parseInt(roleId),
+                    stationID: parseInt(stationId),
+                    isActive,
+                    dateJoined: new Date(dateJoined).toISOString()
+                };
+
+                // Add officer ID for updates
+                if (officerId) {
+                    officerData.officerID = parseInt(officerId);
+                }
+
+                // Add password only if provided or for new officers
+                if (passwordHash || !officerId) {
+                    officerData.passwordHash = passwordHash;
+                }
+
+                // Get fresh token
+                const freshToken = localStorage.getItem('token');
+
+                // Determine if creating or updating
+                const isNewOfficer = !officerId;
+                const url = isNewOfficer ? `${apiBaseUrl}/api/AdminPoliceOfficer` : `${apiBaseUrl}/api/AdminPoliceOfficer/${officerId}`;
+                const method = isNewOfficer ? 'POST' : 'PUT';
+
+                console.log(`${isNewOfficer ? 'Creating' : 'Updating'} officer:`, url);
+                console.log('Officer data:', officerData);
+
+                // Send request
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${freshToken}`,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(officerData)
+                });
+
+                console.log('Submit response status:', response.status);
+
+                // Get response text for debugging
+                const responseText = await response.text();
+                console.log('Submit response text:', responseText);
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.error('Authentication failed. Redirecting to login...');
+                        clearAuthData();
+                        window.location.href = 'login.html?error=' + encodeURIComponent('Your session has expired. Please log in again.');
+                        return;
+                    }
+
+                    // Try to get error message from response
+                    let errorMessage = 'Failed to save officer data';
+                    try {
+                        const errorData = JSON.parse(responseText);
+                        errorMessage = errorData.message || errorMessage;
+                    } catch (e) {
+                        console.error('Error parsing error response:', e);
+                    }
+
+                    throw new Error(errorMessage);
+                }
+
+                // Show success notification
+                showNotification(`Officer ${isNewOfficer ? 'created' : 'updated'} successfully.`, 'success');
+
+                // Close modal and refresh officers list
+                document.getElementById('officerModal').style.display = 'none';
+                refreshOfficers();
+
+            } catch (error) {
+                console.error('Error saving officer:', error);
+                showNotification(error.message || 'Failed to save officer data.', 'error');
+            }
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // New officer button
+            document.getElementById('newOfficerBtn').addEventListener('click', () => {
+                // Reset form
+                document.getElementById('officerForm').reset();
+                document.getElementById('officerId').value = '';
+                document.getElementById('modalTitle').textContent = 'New Police Officer';
+                document.getElementById('passwordHash').required = true;
+
+                // Set default date to today
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('dateJoined').value = today;
+
+                // Show modal
+                document.getElementById('officerModal').style.display = 'flex';
+            });
+
+            // Close modals
+            document.getElementById('closeModal').addEventListener('click', () => {
+                document.getElementById('officerModal').style.display = 'none';
+            });
+
+            document.getElementById('closeViewModal').addEventListener('click', () => {
+                document.getElementById('viewOfficerModal').style.display = 'none';
+            });
+
+            document.getElementById('closeViewBtn').addEventListener('click', () => {
+                document.getElementById('viewOfficerModal').style.display = 'none';
+            });
+
+            // Cancel form button
+            document.getElementById('cancelForm').addEventListener('click', () => {
+                document.getElementById('officerModal').style.display = 'none';
+            });
+
+        // Edit from view button
+        document.getElementById('editFromViewBtn').addEventListener('click', event => {
+            const officerId = event.target.getAttribute('data-id');
+            editOfficer(officerId);
+        });
+
+        // Form submission
+        document.getElementById('officerForm').addEventListener('submit', submitOfficerForm);
+
+        // Search functionality
+        document.getElementById('searchButton').addEventListener('click', () => {
+            refreshOfficers();
+        });
+
+        document.getElementById('searchInput').addEventListener('keyup', event => {
+            if (event.key === 'Enter') {
+                refreshOfficers();
+            }
+        });
+
+        // Filter buttons
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            refreshOfficers();
+        });
+
+        document.getElementById('resetFilters').addEventListener('click', () => {
+            // Reset filter inputs
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('roleFilter').value = '';
+            document.getElementById('stationFilter').value = '';
+            document.getElementById('searchInput').value = '';
+
+            // Refresh with no filters
+            refreshOfficers();
+        });
+
+        // Logout button
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            // Clear localStorage
+            clearAuthData();
+
+            // Redirect to login page
+            window.location.href = 'login.html?logout=true';
+        });
+}
+
+        // Show notification message
+        function showNotification(message, type = 'success') {
+            // Create notification element if it doesn't exist
+            let notification = document.querySelector('.notification');
+
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.className = 'notification';
+                document.body.appendChild(notification);
+            }
+
+            // Set notification content and type
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+    `;
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add listener for unhandled promise rejections
+        window.addEventListener('unhandledrejection', function (event) {
+            console.error('Unhandled Promise Rejection:', event.reason);
+            if (event.reason && event.reason.message &&
+                (event.reason.message.includes('CORS') || event.reason.message.includes('NetworkError'))) {
+                showNotification('Cross-origin error occurred. Please check server configuration.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

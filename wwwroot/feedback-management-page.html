@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --accent-green: #34a853;
+            --accent-yellow: #fbbc05;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .user-nav button {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-nav button:hover {
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin-right: 0.5rem;
+        }
+
+        .breadcrumb span {
+            margin-right: 0.5rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: var(--hover-blue);
+        }
+
+        .feedback-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .filters {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 0.3rem;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-self: flex-end;
+            margin-top: 1.3rem;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .rating i {
+            color: var(--accent-yellow);
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-icons i {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            transition: color 0.3s ease;
+        }
+
+        .action-icons i:hover {
+            color: var(--primary-blue);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-gray);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ccc;
+            padding: 0 0.2rem;
+        }
+
+        .star-rating label:hover, 
+        .star-rating label:hover ~ label, 
+        .star-rating input:checked ~ label {
+            color: var(--accent-yellow);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .summary-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .summary-card.total-feedback .icon {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .summary-card.avg-rating .icon {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+
+        .summary-card.recent-feedback .icon {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pagination button.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-left: 4px solid var(--accent-green);
+        }
+        
+        .notification.error {
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i {
+            color: var(--accent-green);
+        }
+
+        .notification.error i {
+            color: var(--accent-red);
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filter-actions {
+                align-self: stretch;
+            }
+            
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Officer</span>
+            <!--<i class="fas fa-bell" style="cursor: pointer;"></i>-->
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="home.html">Home</a>
+            <span>></span>
+            <span>Feedback Management</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Feedback Management</h1>
+            <button class="action-button" id="newFeedbackBtn">
+                <i class="fas fa-plus"></i> Add New Feedback
+            </button>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card total-feedback">
+                <div class="icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Total Feedback</h3>
+                <p id="totalFeedback">0</p>
+            </div>
+            <div class="summary-card avg-rating">
+                <div class="icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Average Rating</h3>
+                <p id="avgRating">0.0</p>
+            </div>
+            <div class="summary-card recent-feedback">
+                <div class="icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Recent Feedback (Last 7 Days)</h3>
+                <p id="recentFeedback">0</p>
+            </div>
+        </div>
+
+        <div class="feedback-container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="typeFilter">Feedback Type</label>
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="Service">Service</option>
+                        <option value="Officer">Officer</option>
+                        <option value="Website">Website</option>
+                        <option value="General">General</option>
+                        <option value="Complaint">Complaint</option>
+                        <option value="Suggestion">Suggestion</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="ratingFilter">Minimum Rating</label>
+                    <select id="ratingFilter">
+                        <option value="">All Ratings</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4+ Stars</option>
+                        <option value="3">3+ Stars</option>
+                        <option value="2">2+ Stars</option>
+                        <option value="1">1+ Star</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">Date Range</label>
+                    <select id="dateFilter">
+                        <option value="">All Time</option>
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 3 Months</option>
+                        <option value="365">Last Year</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="filter-button" id="applyFilters">Apply</button>
+                    <button class="reset-button" id="resetFilters">Reset</button>
+                </div>
+            </div>
+
+            <div id="loadingIndicator" class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading feedback...</p>
+            </div>
+
+            <table id="feedbackTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Rating</th>
+                        <th>Comments</th>
+                        <th>Date Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="feedbackTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No feedback found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- New Feedback Modal -->
+    <div class="modal" id="feedbackModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Feedback</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="feedbackForm">
+                <input type="hidden" id="feedbackId">
+                <div class="form-group">
+                    <label for="feedbackType">Feedback Type</label>
+                    <select id="feedbackType" required>
+                        <option value="">Select Type</option>
+                        <option value="Service">Service</option>
+                        <option value="Officer">Officer</option>
+                        <option value="Website">Website</option>
+                        <option value="General">General</option>
+                        <option value="Complaint">Complaint</option>
+                        <option value="Suggestion">Suggestion</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="rating" value="5" required/>
+                        <label for="star5"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star4" name="rating" value="4"/>
+                        <label for="star4"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star3" name="rating" value="3"/>
+                        <label for="star3"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star2" name="rating" value="2"/>
+                        <label for="star2"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star1" name="rating" value="1"/>
+                        <label for="star1"><i class="fas fa-star"></i></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <textarea id="comments" required placeholder="Enter feedback comments..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button" id="submitBtn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Feedback Modal -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Feedback Details</h2>
+                <button class="close-modal" id="closeViewModal">&times;</button>
+            </div>
+            <div id="feedbackDetails">
+                <!-- Feedback details will be loaded dynamically -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="delete-button" id="deleteFeedbackBtn">Delete</button>
+                <button class="cancel-button" id="closeDetails">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </footer>
+
+    <!-- JavaScript will be included separately -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in (token exists)
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login if no token
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Initialize the page
+            loadFeedback();
+            setupEventListeners();
+        });
+
+        let currentFeedback = []; // Store the current feedback data
+        const feedbackPerPage = 10;
+        let currentPage = 1;
+
+        // Make functions global so they can be accessed from onclick attributes
+        window.viewFeedbackDetails = function (id) {
+            const feedback = currentFeedback.find(f => f.feedbackID === id);
+            if (!feedback) return;
+
+            // Format date
+            const submittedDate = new Date(feedback.submittedAt);
+            const formattedDate = submittedDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Generate star rating HTML
+            const ratingHtml = generateRatingStars(feedback.rating);
+
+            // Populate details
+            const detailsContainer = document.getElementById('feedbackDetails');
+            detailsContainer.innerHTML = `
+        <div class="form-group">
+            <label>Feedback ID</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${feedback.feedbackID}</div>
+        </div>
+        <div class="form-group">
+            <label>Feedback Type</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${feedback.feedbackType}</div>
+        </div>
+        <div class="form-group">
+            <label>Rating</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">
+                <div class="rating">${ratingHtml}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Comments</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px; min-height: 100px;">
+                ${feedback.comments}
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Date Submitted</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${formattedDate}</div>
+        </div>
+    `;
+
+            // Store the feedback ID in the modal for the delete button
+            document.getElementById('viewModal').setAttribute('data-feedback-id', feedback.feedbackID);
+
+            // Show the modal
+            document.getElementById('viewModal').style.display = 'flex';
+        };
+
+        window.deleteFeedback = function (id) {
+            if (confirm('Are you sure you want to delete this feedback? This action cannot be undone.')) {
+                // Show loading indicator
+                showNotification('Deleting feedback...', 'info');
+
+                fetch(`https://localhost:5001/api/Feedback/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete feedback');
+                        }
+
+                        // Reload the feedback after successful deletion
+                        loadFeedback();
+                        showNotification('Feedback deleted successfully', 'success');
+                    })
+                    .catch(error => {
+                        console.error('Error deleting feedback:', error);
+                        showNotification('Failed to delete feedback: ' + error.message, 'error');
+                    });
+            }
+        };
+
+        function setupEventListeners() {
+            // New Feedback button
+            document.getElementById('newFeedbackBtn').addEventListener('click', function () {
+                document.getElementById('modalTitle').textContent = 'Add New Feedback';
+                document.getElementById('feedbackForm').reset();
+                document.getElementById('feedbackId').value = '';
+                document.getElementById('feedbackModal').style.display = 'flex';
+            });
+
+            // Close modal buttons
+            document.getElementById('closeModal').addEventListener('click', function () {
+                document.getElementById('feedbackModal').style.display = 'none';
+            });
+
+            document.getElementById('cancelForm').addEventListener('click', function () {
+                document.getElementById('feedbackModal').style.display = 'none';
+            });
+
+            document.getElementById('closeViewModal').addEventListener('click', function () {
+                document.getElementById('viewModal').style.display = 'none';
+            });
+
+            document.getElementById('closeDetails').addEventListener('click', function () {
+                document.getElementById('viewModal').style.display = 'none';
+            });
+
+            // Delete feedback button in view modal
+            document.getElementById('deleteFeedbackBtn').addEventListener('click', function () {
+                const feedbackId = document.getElementById('viewModal').getAttribute('data-feedback-id');
+                if (feedbackId) {
+                    document.getElementById('viewModal').style.display = 'none';
+                    deleteFeedback(feedbackId);
+                }
+            });
+
+            // Form submission
+            document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitFeedbackForm();
+            });
+
+            // Apply filters button
+            document.getElementById('applyFilters').addEventListener('click', function () {
+                applyFilters();
+            });
+
+            // Reset filters button
+            document.getElementById('resetFilters').addEventListener('click', function () {
+                document.getElementById('typeFilter').value = '';
+                document.getElementById('ratingFilter').value = '';
+                document.getElementById('dateFilter').value = '';
+                loadFeedback();
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        }
+
+        function loadFeedback() {
+            showLoading(true);
+
+            fetch('https://localhost:5001/api/Feedback', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch feedback');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    currentFeedback = data;
+                    currentPage = 1; // Reset to first page
+                    displayFeedback(currentPage);
+                    setupPagination();
+                    updateSummary(data);
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error loading feedback:', error);
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    showLoading(false);
+                    showNotification('Error loading feedback: ' + error.message, 'error');
+                });
+        }
+
+        function applyFilters() {
+            showLoading(true);
+
+            // Get filter values
+            const typeFilter = document.getElementById('typeFilter').value;
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+
+            fetch('https://localhost:5001/api/Feedback', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch feedback');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Filter the data based on selected filters
+                    let filteredData = data;
+
+                    if (typeFilter) {
+                        filteredData = filteredData.filter(feedback => feedback.feedbackType === typeFilter);
+                    }
+
+                    if (ratingFilter) {
+                        const minRating = parseInt(ratingFilter);
+                        filteredData = filteredData.filter(feedback => feedback.rating >= minRating);
+                    }
+
+                    if (dateFilter) {
+                        const daysBack = parseInt(dateFilter);
+                        const cutoffDate = new Date();
+                        cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+
+                        filteredData = filteredData.filter(feedback => {
+                            const submittedDate = new Date(feedback.submittedAt);
+                            return submittedDate >= cutoffDate;
+                        });
+                    }
+
+                    currentFeedback = filteredData;
+                    currentPage = 1; // Reset to first page when filters change
+                    displayFeedback(currentPage);
+                    setupPagination();
+                    showLoading(false);
+
+                    showNotification(`Found ${filteredData.length} matching feedback items`, 'success');
+                })
+                .catch(error => {
+                    console.error('Error applying filters:', error);
+                    showLoading(false);
+                    showNotification('Error applying filters: ' + error.message, 'error');
+                });
+        }
+
+        function updateSummary(feedback) {
+            // Count total feedback
+            document.getElementById('totalFeedback').textContent = feedback.length;
+
+            // Calculate average rating
+            if (feedback.length > 0) {
+                const totalRating = feedback.reduce((sum, item) => sum + item.rating, 0);
+                const avgRating = (totalRating / feedback.length).toFixed(1);
+                document.getElementById('avgRating').textContent = avgRating;
+            } else {
+                document.getElementById('avgRating').textContent = '0.0';
+            }
+
+            // Count recent feedback (last 7 days)
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+            const recentFeedback = feedback.filter(item => {
+                const submittedDate = new Date(item.submittedAt);
+                return submittedDate >= sevenDaysAgo;
+            }).length;
+
+            document.getElementById('recentFeedback').textContent = recentFeedback;
+        }
+
+        function displayFeedback(page) {
+            const tableBody = document.getElementById('feedbackTableBody');
+            tableBody.innerHTML = '';
+
+            const start = (page - 1) * feedbackPerPage;
+            const end = start + feedbackPerPage;
+            const paginatedItems = currentFeedback.slice(start, end);
+
+            if (paginatedItems.length === 0) {
+                document.getElementById('feedbackTable').style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('feedbackTable').style.display = 'table';
+            document.getElementById('noDataMessage').style.display = 'none';
+
+            paginatedItems.forEach(feedback => {
+                const row = document.createElement('tr');
+
+                // Format date
+                const submittedDate = new Date(feedback.submittedAt);
+                const formattedDate = submittedDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                // Generate star rating HTML
+                const ratingHtml = generateRatingStars(feedback.rating);
+
+                // Truncate comments if too long
+                const truncatedComments = feedback.comments.length > 50
+                    ? feedback.comments.substring(0, 50) + '...'
+                    : feedback.comments;
+
+                row.innerHTML = `
+            <td>${feedback.feedbackID}</td>
+            <td>${feedback.feedbackType}</td>
+            <td><div class="rating">${ratingHtml}</div></td>
+            <td title="${feedback.comments}">${truncatedComments}</td>
+            <td>${formattedDate}</td>
+            <td class="action-icons">
+                <i class="fas fa-eye" title="View Details" onclick="viewFeedbackDetails(${feedback.feedbackID})"></i>
+                <i class="fas fa-trash-alt" title="Delete Feedback" onclick="deleteFeedback(${feedback.feedbackID})"></i>
+            </td>
+        `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function generateRatingStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        function setupPagination() {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+
+            const totalPages = Math.ceil(currentFeedback.length / feedbackPerPage);
+
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.title = 'Previous Page';
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayFeedback(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+
+            // Create page buttons (show max 5 pages)
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            // Adjust if we're near the end
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-btn');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    displayFeedback(currentPage);
+                    updateActivePaginationButton();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.title = 'Next Page';
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayFeedback(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+        }
+
+        function updateActivePaginationButton() {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.textContent) === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function submitFeedbackForm() {
+            // Disable the submit button to prevent double submission
+            const submitButton = document.getElementById('submitBtn');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            // Get the selected rating value
+            const ratingValue = document.querySelector('input[name="rating"]:checked').value;
+
+            const feedbackData = {
+                feedbackType: document.getElementById('feedbackType').value,
+                rating: parseInt(ratingValue),
+                comments: document.getElementById('comments').value,
+                submittedAt: new Date().toISOString()
+            };
+
+            // We're only creating new feedback, not updating
+            fetch('https://localhost:5001/api/Feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify(feedbackData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to save feedback');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Close modal and reload feedback
+                    document.getElementById('feedbackModal').style.display = 'none';
+                    loadFeedback();
+
+                    // Show success message
+                    showNotification('Feedback submitted successfully', 'success');
+                })
+                .catch(error => {
+                    console.error('Error saving feedback:', error);
+                    showNotification('Failed to save feedback: ' + error.message, 'error');
+                })
+                .finally(() => {
+                    // Re-enable submit button
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Submit';
+                });
+        }
+
+        function showLoading(isLoading) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const tableElement = document.getElementById('feedbackTable');
+
+            if (isLoading) {
+                loadingIndicator.style.display = 'block';
+                tableElement.style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'none';
+            } else {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type || 'info'}`;
+
+            // Add icon based on type
+            const icon = document.createElement('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'info') {
+                icon.className = 'fas fa-info-circle';
+            }
+            notification.appendChild(icon);
+
+            // Add message text
+            const messageText = document.createElement('span');
+            messageText.textContent = ' ' + message;
+            notification.appendChild(messageText);
+
+            document.body.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide and remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1088 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --accent-green: #34a853;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+            .user-nav button {
+                background: transparent;
+                border: 1px solid white;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+                .user-nav button:hover {
+                    background: white;
+                    color: var(--primary-blue);
+                }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+            .breadcrumb a {
+                color: var(--primary-blue);
+                text-decoration: none;
+                margin-right: 0.5rem;
+            }
+
+            .breadcrumb span {
+                margin-right: 0.5rem;
+            }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .action-button:hover {
+                background: var(--hover-blue);
+            }
+
+        .admin-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .search-bar {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+            .search-bar input {
+                flex: 1;
+                padding: 0.8rem;
+                border: 1px solid #ddd;
+                border-radius: 5px 0 0 5px;
+                font-size: 0.9rem;
+            }
+
+            .search-bar button {
+                padding: 0.8rem 1.2rem;
+                background: var(--primary-blue);
+                color: white;
+                border: none;
+                border-radius: 0 5px 5px 0;
+                cursor: pointer;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-inactive {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+            .action-icons i {
+                cursor: pointer;
+                font-size: 1.2rem;
+                color: var(--text-gray);
+                transition: color 0.3s ease;
+            }
+
+                .action-icons i:hover {
+                    color: var(--primary-blue);
+                }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+                color: var(--primary-dark);
+            }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--text-gray);
+            }
+
+            .form-group input, .form-group select {
+                width: 100%;
+                padding: 0.8rem;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+            .summary-card .icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+            }
+
+            .summary-card.total-admins .icon {
+                background-color: #e8f5e9;
+                color: #388e3c;
+            }
+
+            .summary-card.active-admins .icon {
+                background-color: #e3f2fd;
+                color: #1976d2;
+            }
+
+            .summary-card h3 {
+                font-size: 1rem;
+                color: var(--text-gray);
+                margin-bottom: 0.5rem;
+            }
+
+            .summary-card p {
+                font-size: 1.8rem;
+                font-weight: bold;
+                color: var(--primary-dark);
+            }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+            .pagination button {
+                padding: 0.5rem 1rem;
+                border: 1px solid #ddd;
+                background: white;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+                .pagination button.active {
+                    background: var(--primary-blue);
+                    color: white;
+                    border-color: var(--primary-blue);
+                }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .notification.show {
+                transform: translateX(0);
+            }
+
+            .notification.success {
+                border-left: 4px solid var(--accent-green);
+            }
+
+            .notification.error {
+                border-left: 4px solid var(--accent-red);
+            }
+
+            .notification i {
+                font-size: 1.2rem;
+            }
+
+            .notification.success i {
+                color: var(--accent-green);
+            }
+
+            .notification.error i {
+                color: var(--accent-red);
+            }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+                .search-bar input {
+                    border-radius: 5px;
+                }
+
+                .search-bar button {
+                    border-radius: 5px;
+                }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Admin</span>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="admin-dashboard.html">Admin Dashboard</a>
+            <span>></span>
+            <span>Admin Management</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Admin Management</h1>
+            <button class="action-button" id="newAdminBtn">
+                <i class="fas fa-plus"></i> Add New Admin
+            </button>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card total-admins">
+                <div class="icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3>Total Admins</h3>
+                <p id="totalAdmins">0</p>
+            </div>
+            <div class="summary-card active-admins">
+                <div class="icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>Active Admins</h3>
+                <p id="activeAdmins">0</p>
+            </div>
+        </div>
+
+        <div class="admin-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by name, email, phone...">
+                <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
+            </div>
+
+            <div id="loadingIndicator" class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading admins...</p>
+            </div>
+
+            <table id="adminsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date Added</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="adminsTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-users-cog" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No admin accounts found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- Add/Edit Admin Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Admin</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="adminForm">
+                <input type="hidden" id="adminId">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password">
+                    <small>Leave blank to keep current password when editing.</small>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber">
+                </div>
+                <div class="form-group">
+                    <label for="isActive">Status</label>
+                    <select id="isActive">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button" id="submitBtn">Save Admin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </footer>
+
+    <!-- JavaScript will be included separately -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in (token exists)
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login if no token
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Initialize the page
+            loadAdmins();
+            setupEventListeners();
+        });
+
+        let currentAdmins = []; // Store the current admins data
+        const adminsPerPage = 10;
+        let currentPage = 1;
+
+        function setupEventListeners() {
+            // New Admin button
+            document.getElementById('newAdminBtn').addEventListener('click', function () {
+                document.getElementById('modalTitle').textContent = 'Add New Admin';
+                document.getElementById('adminForm').reset();
+                document.getElementById('adminId').value = '';
+                document.getElementById('password').required = true;
+                document.getElementById('adminModal').style.display = 'flex';
+            });
+
+            // Close modal button
+            document.getElementById('closeModal').addEventListener('click', function () {
+                document.getElementById('adminModal').style.display = 'none';
+            });
+
+            document.getElementById('cancelForm').addEventListener('click', function () {
+                document.getElementById('adminModal').style.display = 'none';
+            });
+
+            // Form submission
+            document.getElementById('adminForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitAdminForm();
+            });
+
+            // Search functionality
+            document.getElementById('searchBtn').addEventListener('click', function () {
+                const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+                if (searchTerm) {
+                    searchAdmins(searchTerm);
+                } else {
+                    loadAdmins();
+                }
+            });
+
+            // Search on Enter key
+            document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = e.target.value.trim().toLowerCase();
+                    if (searchTerm) {
+                        searchAdmins(searchTerm);
+                    } else {
+                        loadAdmins();
+                    }
+                }
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        }
+
+        function loadAdmins() {
+            showLoading(true);
+
+            fetch('https://localhost:5001/api/Admin', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch admin accounts');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    currentAdmins = data;
+                    currentPage = 1; // Reset to first page
+                    displayAdmins(currentPage);
+                    setupPagination();
+                    updateSummary(data);
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error loading admin accounts:', error);
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    showLoading(false);
+                    showNotification('Error loading admin accounts: ' + error.message, 'error');
+                });
+        }
+
+        function searchAdmins(searchTerm) {
+            showLoading(true);
+
+            fetch('https://localhost:5001/api/Admin', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch admin accounts');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Filter admin accounts based on search term
+                    const filteredAdmins = data.filter(admin =>
+                        (admin.firstName && admin.firstName.toLowerCase().includes(searchTerm)) ||
+                        (admin.lastName && admin.lastName.toLowerCase().includes(searchTerm)) ||
+                        (admin.email && admin.email.toLowerCase().includes(searchTerm)) ||
+                        (admin.phoneNumber && admin.phoneNumber.toLowerCase().includes(searchTerm))
+                    );
+
+                    currentAdmins = filteredAdmins;
+                    currentPage = 1; // Reset to first page
+                    displayAdmins(currentPage);
+                    setupPagination();
+                    showLoading(false);
+
+                    showNotification(`Found ${filteredAdmins.length} matching admin accounts`, 'success');
+                })
+                .catch(error => {
+                    console.error('Error searching admin accounts:', error);
+                    showLoading(false);
+                    showNotification('Error searching admin accounts: ' + error.message, 'error');
+                });
+        }
+
+        function updateSummary(admins) {
+            // Count total admins
+            document.getElementById('totalAdmins').textContent = admins.length;
+
+            // Count active admins
+            const activeAdmins = admins.filter(admin => admin.isActive).length;
+            document.getElementById('activeAdmins').textContent = activeAdmins;
+        }
+
+        function displayAdmins(page) {
+            const tableBody = document.getElementById('adminsTableBody');
+            tableBody.innerHTML = '';
+
+            const start = (page - 1) * adminsPerPage;
+            const end = start + adminsPerPage;
+            const paginatedItems = currentAdmins.slice(start, end);
+
+            if (paginatedItems.length === 0) {
+                document.getElementById('adminsTable').style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('adminsTable').style.display = 'table';
+            document.getElementById('noDataMessage').style.display = 'none';
+
+            paginatedItems.forEach(admin => {
+                const row = document.createElement('tr');
+
+                // Format date
+                const createdDate = new Date(admin.createdAt);
+                const formattedDate = createdDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                // Determine status class and text
+                const statusClass = admin.isActive ? 'status-active' : 'status-inactive';
+                const statusText = admin.isActive ? 'Active' : 'Inactive';
+
+                // Full name
+                const fullName = `${admin.firstName} ${admin.lastName}`;
+
+                row.innerHTML = `
+            <td>${admin.adminId}</td>
+            <td>${fullName}</td>
+            <td>${admin.email}</td>
+            <td>${admin.phoneNumber || '-'}</td>
+            <td>${formattedDate}</td>
+            <td><span class="${statusClass} status-pill">${statusText}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-edit" title="Edit Admin" onclick="editAdmin(${admin.adminId})"></i>
+                <i class="fas fa-trash-alt" title="Delete Admin" onclick="deleteAdmin(${admin.adminId})"></i>
+            </td>
+        `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupPagination() {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+
+            const totalPages = Math.ceil(currentAdmins.length / adminsPerPage);
+
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.title = 'Previous Page';
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayAdmins(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+
+            // Create page buttons (show max 5 pages)
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            // Adjust if we're near the end
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-btn');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    displayAdmins(currentPage);
+                    updateActivePaginationButton();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.title = 'Next Page';
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayAdmins(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+        }
+
+        function updateActivePaginationButton() {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.textContent) === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // This function is called globally from the HTML when edit button is clicked
+        window.editAdmin = function (id) {
+            const admin = currentAdmins.find(a => a.adminId === id);
+            if (!admin) return;
+
+            document.getElementById('modalTitle').textContent = 'Edit Admin';
+            document.getElementById('adminId').value = admin.adminId;
+            document.getElementById('firstName').value = admin.firstName;
+            document.getElementById('lastName').value = admin.lastName;
+            document.getElementById('email').value = admin.email;
+
+            // Password is not required when editing
+            document.getElementById('password').required = false;
+            document.getElementById('password').value = '';
+
+            document.getElementById('phoneNumber').value = admin.phoneNumber || '';
+            document.getElementById('isActive').value = admin.isActive ? 'true' : 'false';
+
+            document.getElementById('adminModal').style.display = 'flex';
+        }
+
+        // This function is called globally from the HTML when delete button is clicked
+        window.deleteAdmin = function (id) {
+            if (confirm('Are you sure you want to delete this admin? This action cannot be undone.')) {
+                fetch(`https://localhost:5001/api/Admin/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete admin');
+                        }
+
+                        // Reload the admins after successful deletion
+                        loadAdmins();
+                        showNotification('Admin deleted successfully', 'success');
+                    })
+                    .catch(error => {
+                        console.error('Error deleting admin:', error);
+                        showNotification('Failed to delete admin: ' + error.message, 'error');
+                    });
+            }
+        }
+
+        function submitAdminForm() {
+            // Disable the submit button to prevent double submission
+            const submitButton = document.getElementById('submitBtn');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            const adminId = document.getElementById('adminId').value;
+            const adminData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phoneNumber').value || null,
+                isActive: document.getElementById('isActive').value === 'true'
+            };
+
+            // Add password if provided (for new admin or password change)
+            const password = document.getElementById('password').value;
+            if (password) {
+                adminData.passwordHash = password;
+            }
+
+            let url, method;
+
+            if (adminId) {
+                // Update existing admin
+                adminData.adminId = parseInt(adminId);
+                url = `https://localhost:5001/api/Admin/${adminId}`;
+                method = 'PUT';
+            } else {
+                // Create new admin - set creation date
+                adminData.createdAt = new Date().toISOString();
+                url = 'https://localhost:5001/api/Admin';
+                method = 'POST';
+            }
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify(adminData)
+            })
+                .then(response => {
+                    // For PUT requests, NoContent (204) is a successful response
+                    if (response.status === 204) {
+                        // For update operations, the API returns 204 No Content
+                        return null; // No JSON to parse
+                    }
+
+                    if (!response.ok) {
+                        throw new Error('Failed to save admin');
+                    }
+
+                    // For other successful responses, parse JSON
+                    return response.json();
+                })
+                .then(data => {
+                    // Close modal and reload admins
+                    document.getElementById('adminModal').style.display = 'none';
+                    loadAdmins();
+
+                    // Show success message
+                    showNotification(
+                        adminId ? 'Admin updated successfully' : 'Admin created successfully',
+                        'success'
+                    );
+                })
+                .catch(error => {
+                    console.error('Error saving admin:', error);
+                    showNotification('Failed to save admin: ' + error.message, 'error');
+                })
+                .finally(() => {
+                    // Re-enable submit button
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Save Admin';
+                });
+        }
+
+        function showLoading(isLoading) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const tableElement = document.getElementById('adminsTable');
+
+            if (isLoading) {
+                loadingIndicator.style.display = 'block';
+                tableElement.style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'none';
+            } else {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+
+            // Add icon based on type
+            const icon = document.createElement('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            }
+            notification.appendChild(icon);
+
+            // Add message text
+            const messageText = document.createElement('span');
+            messageText.textContent = ' ' + message;
+            notification.appendChild(messageText);
+
+            document.body.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide and remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --accent-green: #34a853;
+            --accent-yellow: #fbbc05;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .user-nav button {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-nav button:hover {
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin-right: 0.5rem;
+        }
+
+        .breadcrumb span {
+            margin-right: 0.5rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: var(--hover-blue);
+        }
+
+        .citizens-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .search-filters {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-group {
+            display: flex;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-group input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 0.9rem;
+        }
+
+        .search-group button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-inactive {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-icons i {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            transition: color 0.3s ease;
+        }
+
+        .action-icons i:hover {
+            color: var(--primary-blue);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-gray);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .summary-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .summary-card.total-citizens .icon {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .summary-card.active-citizens .icon {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .summary-card.recent-citizens .icon {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pagination button.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-left: 4px solid var(--accent-green);
+        }
+        
+        .notification.error {
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i {
+            color: var(--accent-green);
+        }
+
+        .notification.error i {
+            color: var(--accent-red);
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .search-filters {
+                flex-direction: column;
+            }
+            
+            .search-group {
+                width: 100%;
+            }
+            
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Officer</span>
+            <!--<i class="fas fa-bell" style="cursor: pointer;"></i>-->
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="home.html">Home</a>
+            <span>></span>
+            <span>Citizen Management</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Citizen Management</h1>
+            <button class="action-button" id="newCitizenBtn">
+                <i class="fas fa-plus"></i> Add New Citizen
+            </button>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card total-citizens">
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Total Citizens</h3>
+                <p id="totalCitizens">0</p>
+            </div>
+            <div class="summary-card active-citizens">
+                <div class="icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>Active Citizens</h3>
+                <p id="activeCitizens">0</p>
+            </div>
+            <div class="summary-card recent-citizens">
+                <div class="icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3>Added This Month</h3>
+                <p id="recentCitizens">0</p>
+            </div>
+        </div>
+
+        <div class="citizens-container">
+            <div class="search-filters">
+                <div class="search-group">
+                    <input type="text" id="searchInput" placeholder="Search by name, email, NID...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div id="loadingIndicator" class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading citizens...</p>
+            </div>
+
+            <table id="citizensTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>National ID</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="citizensTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No citizens found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- New/Edit Citizen Modal -->
+    <div class="modal" id="citizenModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Citizen</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="citizenForm">
+                <input type="hidden" id="citizenId">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                    <small>Leave blank to keep current password when editing.</small>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input type="date" id="dateOfBirth">
+                </div>
+                <div class="form-group">
+                    <label for="nationalId">National ID</label>
+                    <input type="text" id="nationalId">
+                </div>
+                <div class="form-group">
+                    <label for="isActive">Status</label>
+                    <select id="isActive">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button" id="submitBtn">Save Citizen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Citizen Details Modal -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Citizen Details</h2>
+                <button class="close-modal" id="closeViewModal">&times;</button>
+            </div>
+            <div id="citizenDetails">
+                <!-- Citizen details will be loaded dynamically -->
+            </div>
+            <div class="form-actions">
+                <button class="cancel-button" id="closeDetails">Close</button>
+                <button class="action-button" id="editCitizenBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </footer>
+
+    <!-- JavaScript will be included separately -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in (token exists)
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login if no token
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Initialize the page
+            loadCitizens();
+            setupEventListeners();
+
+            // Set max date for DOB to today
+            document.getElementById('dateOfBirth').max = new Date().toISOString().split('T')[0];
+        });
+
+        let currentCitizens = []; // Store the current citizens data
+        const citizensPerPage = 10;
+        let currentPage = 1;
+
+        function setupEventListeners() {
+            // New Citizen button
+            document.getElementById('newCitizenBtn').addEventListener('click', function () {
+                document.getElementById('modalTitle').textContent = 'Add New Citizen';
+                document.getElementById('citizenForm').reset();
+                document.getElementById('citizenId').value = '';
+                document.getElementById('password').required = true;
+                document.getElementById('citizenModal').style.display = 'flex';
+            });
+
+            // Close modal buttons
+            document.getElementById('closeModal').addEventListener('click', function () {
+                document.getElementById('citizenModal').style.display = 'none';
+            });
+
+            document.getElementById('cancelForm').addEventListener('click', function () {
+                document.getElementById('citizenModal').style.display = 'none';
+            });
+
+            document.getElementById('closeViewModal').addEventListener('click', function () {
+                document.getElementById('viewModal').style.display = 'none';
+            });
+
+            document.getElementById('closeDetails').addEventListener('click', function () {
+                document.getElementById('viewModal').style.display = 'none';
+            });
+
+            // Search
+            document.getElementById('searchBtn').addEventListener('click', function () {
+                const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+                if (searchTerm) {
+                    searchCitizens(searchTerm);
+                } else {
+                    loadCitizens();
+                }
+            });
+
+            // Search on Enter key
+            document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = e.target.value.trim().toLowerCase();
+                    if (searchTerm) {
+                        searchCitizens(searchTerm);
+                    } else {
+                        loadCitizens();
+                    }
+                }
+            });
+
+            // Form submission
+            document.getElementById('citizenForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitCitizenForm();
+            });
+
+            // Edit from view details button
+            document.getElementById('editCitizenBtn').addEventListener('click', function () {
+                const citizenId = document.getElementById('viewModal').getAttribute('data-citizen-id');
+                document.getElementById('viewModal').style.display = 'none';
+                editCitizen(citizenId);
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        }
+
+        function loadCitizens() {
+            showLoading(true);
+
+            fetch('https://localhost:5001/api/Citizen', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch citizens');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    currentCitizens = data;
+                    currentPage = 1; // Reset to first page
+                    displayCitizens(currentPage);
+                    setupPagination();
+                    updateSummary(data);
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error loading citizens:', error);
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    showLoading(false);
+                    showNotification('Error loading citizens: ' + error.message, 'error');
+                });
+        }
+
+        function searchCitizens(searchTerm) {
+            showLoading(true);
+
+            fetch('https://localhost:5001/api/Citizen', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch citizens');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Filter citizens based on search term
+                    const filteredCitizens = data.filter(citizen =>
+                        (citizen.fullName && citizen.fullName.toLowerCase().includes(searchTerm)) ||
+                        (citizen.email && citizen.email.toLowerCase().includes(searchTerm)) ||
+                        (citizen.nationalID && citizen.nationalID.toLowerCase().includes(searchTerm)) ||
+                        (citizen.phoneNumber && citizen.phoneNumber.toLowerCase().includes(searchTerm)) ||
+                        (citizen.address && citizen.address.toLowerCase().includes(searchTerm))
+                    );
+
+                    currentCitizens = filteredCitizens;
+                    currentPage = 1; // Reset to first page
+                    displayCitizens(currentPage);
+                    setupPagination();
+                    showLoading(false);
+
+                    showNotification(`Found ${filteredCitizens.length} matching citizens`, 'success');
+                })
+                .catch(error => {
+                    console.error('Error searching citizens:', error);
+                    showLoading(false);
+                    showNotification('Error searching citizens: ' + error.message, 'error');
+                });
+        }
+
+        function updateSummary(citizens) {
+            // Count total citizens
+            document.getElementById('totalCitizens').textContent = citizens.length;
+
+            // Count active citizens
+            const activeCitizens = citizens.filter(citizen => citizen.isActive).length;
+            document.getElementById('activeCitizens').textContent = activeCitizens;
+
+            // Count citizens added this month
+            const today = new Date();
+            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+            const recentCitizens = citizens.filter(citizen => {
+                const createdDate = new Date(citizen.createdAt);
+                return createdDate >= firstDayOfMonth;
+            }).length;
+
+            document.getElementById('recentCitizens').textContent = recentCitizens;
+        }
+
+        function displayCitizens(page) {
+            const tableBody = document.getElementById('citizensTableBody');
+            tableBody.innerHTML = '';
+
+            const start = (page - 1) * citizensPerPage;
+            const end = start + citizensPerPage;
+            const paginatedItems = currentCitizens.slice(start, end);
+
+            if (paginatedItems.length === 0) {
+                document.getElementById('citizensTable').style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('citizensTable').style.display = 'table';
+            document.getElementById('noDataMessage').style.display = 'none';
+
+            paginatedItems.forEach(citizen => {
+                const row = document.createElement('tr');
+
+                // Determine status class and text
+                const statusClass = citizen.isActive ? 'status-active' : 'status-inactive';
+                const statusText = citizen.isActive ? 'Active' : 'Inactive';
+
+                row.innerHTML = `
+            <td>${citizen.citizenID}</td>
+            <td>${citizen.fullName}</td>
+            <td>${citizen.email}</td>
+            <td>${citizen.phoneNumber || '-'}</td>
+            <td>${citizen.nationalID || '-'}</td>
+            <td><span class="${statusClass} status-pill">${statusText}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-eye" title="View Details" onclick="viewCitizenDetails(${citizen.citizenID})"></i>
+                <i class="fas fa-edit" title="Edit Citizen" onclick="editCitizen(${citizen.citizenID})"></i>
+                <i class="fas fa-trash-alt" title="Delete Citizen" onclick="deleteCitizen(${citizen.citizenID})"></i>
+            </td>
+        `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupPagination() {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+
+            const totalPages = Math.ceil(currentCitizens.length / citizensPerPage);
+
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.title = 'Previous Page';
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayCitizens(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+
+            // Create page buttons (show max 5 pages)
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            // Adjust if we're near the end
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-btn');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    displayCitizens(currentPage);
+                    updateActivePaginationButton();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.title = 'Next Page';
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayCitizens(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+        }
+
+        function updateActivePaginationButton() {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.textContent) === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function viewCitizenDetails(id) {
+            const citizen = currentCitizens.find(c => c.citizenID === id);
+            if (!citizen) return;
+
+            // Format date
+            let formattedDOB = 'Not provided';
+            if (citizen.dateOfBirth) {
+                const dob = new Date(citizen.dateOfBirth);
+                formattedDOB = dob.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            // Format created/updated dates
+            const createdDate = new Date(citizen.createdAt);
+            const formattedCreatedDate = createdDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const updatedDate = new Date(citizen.updatedAt);
+            const formattedUpdatedDate = updatedDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Determine status class and text
+            const statusClass = citizen.isActive ? 'status-active' : 'status-inactive';
+            const statusText = citizen.isActive ? 'Active' : 'Inactive';
+
+            // Populate details
+            const detailsContainer = document.getElementById('citizenDetails');
+            detailsContainer.innerHTML = `
+        <div class="form-group">
+            <label>Citizen ID</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${citizen.citizenID}</div>
+        </div>
+        <div class="form-group">
+            <label>Full Name</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${citizen.fullName}</div>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${citizen.email}</div>
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${citizen.phoneNumber || 'Not provided'}</div>
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px; min-height: 60px;">${citizen.address || 'Not provided'}</div>
+        </div>
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${formattedDOB}</div>
+        </div>
+        <div class="form-group">
+            <label>National ID</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${citizen.nationalID || 'Not provided'}</div>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">
+                <span class="status-pill ${statusClass}">${statusText}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Account Created</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${formattedCreatedDate}</div>
+        </div>
+        <div class="form-group">
+            <label>Last Updated</label>
+            <div style="padding: 0.8rem; background: #f5f5f5; border-radius: 5px;">${formattedUpdatedDate}</div>
+        </div>
+    `;
+
+            // Store the citizen ID in the modal for the edit button
+            document.getElementById('viewModal').setAttribute('data-citizen-id', citizen.citizenID);
+
+            // Show the modal
+            document.getElementById('viewModal').style.display = 'flex';
+        }
+
+        function editCitizen(id) {
+            const citizen = currentCitizens.find(c => c.citizenID === id);
+            if (!citizen) return;
+
+            document.getElementById('modalTitle').textContent = 'Edit Citizen';
+            document.getElementById('citizenId').value = citizen.citizenID;
+            document.getElementById('fullName').value = citizen.fullName;
+            document.getElementById('email').value = citizen.email;
+
+            // Password is not required when editing
+            document.getElementById('password').required = false;
+            document.getElementById('password').value = '';
+
+            document.getElementById('phoneNumber').value = citizen.phoneNumber || '';
+            document.getElementById('address').value = citizen.address || '';
+
+            // Format date for input field (YYYY-MM-DD)
+            if (citizen.dateOfBirth) {
+                const dob = new Date(citizen.dateOfBirth);
+                const formattedDate = dob.toISOString().split('T')[0];
+                document.getElementById('dateOfBirth').value = formattedDate;
+            } else {
+                document.getElementById('dateOfBirth').value = '';
+            }
+
+            document.getElementById('nationalId').value = citizen.nationalID || '';
+            document.getElementById('isActive').value = citizen.isActive ? 'true' : 'false';
+
+            document.getElementById('citizenModal').style.display = 'flex';
+        }
+
+        function deleteCitizen(id) {
+            if (confirm('Are you sure you want to delete this citizen? This action cannot be undone.')) {
+                fetch(`https://localhost:5001/api/Citizen/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete citizen');
+                        }
+
+                        // Reload the citizens after successful deletion
+                        loadCitizens();
+                        showNotification('Citizen deleted successfully', 'success');
+                    })
+                    .catch(error => {
+                        console.error('Error deleting citizen:', error);
+                        showNotification('Failed to delete citizen: ' + error.message, 'error');
+                    });
+            }
+        }
+
+        function submitCitizenForm() {
+            // Disable the submit button to prevent double submission
+            const submitButton = document.getElementById('submitBtn');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            const citizenId = document.getElementById('citizenId').value;
+            const citizenData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phoneNumber').value || null,
+                address: document.getElementById('address').value || null,
+                nationalID: document.getElementById('nationalId').value || null,
+                isActive: document.getElementById('isActive').value === 'true'
+            };
+
+            // Add dateOfBirth if provided
+            const dob = document.getElementById('dateOfBirth').value;
+            if (dob) {
+                citizenData.dateOfBirth = dob; // YYYY-MM-DD format
+            } else {
+                citizenData.dateOfBirth = null;
+            }
+
+            // Add password if provided (for new citizen or password change)
+            const password = document.getElementById('password').value;
+            if (password) {
+                citizenData.passwordHash = password;
+            }
+
+            let url, method;
+
+            if (citizenId) {
+                // Update existing citizen
+                citizenData.citizenID = parseInt(citizenId);
+                citizenData.updatedAt = new Date().toISOString();
+                url = `https://localhost:5001/api/Citizen/${citizenId}`;
+                method = 'PUT';
+            } else {
+                // Create new citizen - set creation date
+                citizenData.createdAt = new Date().toISOString();
+                citizenData.updatedAt = new Date().toISOString();
+                url = 'https://localhost:5001/api/Citizen';
+                method = 'POST';
+            }
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify(citizenData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to save citizen');
+                    }
+
+                    // Close modal and reload citizens
+                    document.getElementById('citizenModal').style.display = 'none';
+                    loadCitizens();
+
+                    // Show success message
+                    showNotification(
+                        citizenId ? 'Citizen updated successfully' : 'Citizen created successfully',
+                        'success'
+                    );
+                })
+                .catch(error => {
+                    console.error('Error saving citizen:', error);
+                    showNotification('Failed to save citizen: ' + error.message, 'error');
+                })
+                .finally(() => {
+                    // Re-enable submit button
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Save Citizen';
+                });
+        }
+
+        function showLoading(isLoading) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const tableElement = document.getElementById('citizensTable');
+
+            if (isLoading) {
+                loadingIndicator.style.display = 'block';
+                tableElement.style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'none';
+            } else {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+
+            // Add icon based on type
+            const icon = document.createElement('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            }
+            notification.appendChild(icon);
+
+            // Add message text
+            const messageText = document.createElement('span');
+            messageText.textContent = ' ' + message;
+            notification.appendChild(messageText);
+
+            document.body.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide and remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

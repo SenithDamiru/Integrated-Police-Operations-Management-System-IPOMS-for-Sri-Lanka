@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Reports Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --accent-yellow: #fbbc05;
+            --accent-green: #34a853;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+            .user-nav button {
+                background: transparent;
+                border: 1px solid white;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+                .user-nav button:hover {
+                    background: white;
+                    color: var(--primary-blue);
+                }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+            .breadcrumb a {
+                color: var(--primary-blue);
+                text-decoration: none;
+                margin-right: 0.5rem;
+            }
+
+            .breadcrumb span {
+                margin-right: 0.5rem;
+            }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .action-button:hover {
+                background: var(--hover-blue);
+            }
+
+        .reports-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .filters {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 200px;
+        }
+
+            .filter-group label {
+                font-size: 0.8rem;
+                color: var(--text-gray);
+                margin-bottom: 0.3rem;
+            }
+
+            .filter-group select, .filter-group input {
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 0.9rem;
+            }
+
+        .filter-button {
+            align-self: flex-end;
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1.3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .severity-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .severity-1 {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .severity-2 {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .severity-3 {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+
+        .severity-4 {
+            background-color: #fbe9e7;
+            color: #d84315;
+        }
+
+        .severity-5 {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-resolved {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-unresolved {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+            .action-icons i {
+                cursor: pointer;
+                font-size: 1.2rem;
+                color: var(--text-gray);
+                transition: color 0.3s ease;
+            }
+
+                .action-icons i:hover {
+                    color: var(--primary-blue);
+                }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh; /* Set a maximum height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+                color: var(--primary-dark);
+            }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--text-gray);
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                width: 100%;
+                padding: 0.8rem;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+
+            .form-group textarea {
+                min-height: 100px;
+                resize: vertical;
+            }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+            .pagination button {
+                padding: 0.5rem 1rem;
+                border: 1px solid #ddd;
+                background: white;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+                .pagination button.active {
+                    background: var(--primary-blue);
+                    color: white;
+                    border-color: var(--primary-blue);
+                }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-button {
+                align-self: stretch;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Officer</span>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="home.html">Home</a>
+            <span>></span>
+            <span>Traffic Reports</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Traffic Reports</h1>
+            <button class="action-button" id="newReportBtn">
+                <i class="fas fa-plus"></i> New Report
+            </button>
+        </div>
+
+        <div class="reports-container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="true">Resolved</option>
+                        <option value="false">Unresolved</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="typeFilter">Traffic Type</label>
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="Accident">Accident</option>
+                        <option value="Heavy Congestion">Heavy Congestion</option>
+                        <option value="Road Closure">Road Closure</option>
+                        <option value="Traffic Violation">Traffic Violation</option>
+                        <option value="Hazard">Hazard</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="severityFilter">Severity Level</label>
+                    <select id="severityFilter">
+                        <option value="">All Levels</option>
+                        <option value="1">Level 1 (Low)</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                        <option value="4">Level 4</option>
+                        <option value="5">Level 5 (Severe)</option>
+                    </select>
+                </div>
+                <button class="filter-button" id="applyFilters">Apply Filters</button>
+            </div>
+
+            <table id="reportsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Citizen</th>
+                        <th>Traffic Type</th>
+                        <th>Location</th>
+                        <th>Severity</th>
+                        <th>Date Reported</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reportsTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-car-crash" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No traffic reports found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- New Report Modal -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">New Traffic Report</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="reportForm">
+                <input type="hidden" id="reportId">
+                <div class="form-group">
+                    <label for="citizenId">Citizen ID</label>
+                    <input type="number" id="citizenId" required>
+                </div>
+                <div class="form-group">
+                    <label for="trafficType">Traffic Type</label>
+                    <select id="trafficType" required>
+                        <option value="">Select Type</option>
+                        <option value="Accident">Accident</option>
+                        <option value="Heavy Congestion">Heavy Congestion</option>
+                        <option value="Road Closure">Road Closure</option>
+                        <option value="Traffic Violation">Traffic Violation</option>
+                        <option value="Hazard">Hazard</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" required placeholder="Enter precise location">
+                </div>
+                <div class="form-group">
+                    <label for="severityLevel">Severity Level</label>
+                    <select id="severityLevel" required>
+                        <option value="">Select Severity</option>
+                        <option value="1">Level 1 (Low)</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                        <option value="4">Level 4</option>
+                        <option value="5">Level 5 (Severe)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="isResolved">Status</label>
+                    <select id="isResolved">
+                        <option value="false">Unresolved</option>
+                        <option value="true">Resolved</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="responderId">Responder ID (Optional)</label>
+                    <input type="number" id="responderId" placeholder="Leave empty if no responder assigned">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in (token exists)
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login if no token
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Initialize the page
+            loadTrafficReports();
+            setupEventListeners();
+        });
+
+        let currentReports = []; // Store the current reports data
+        const reportsPerPage = 10;
+        let currentPage = 1;
+
+        function setupEventListeners() {
+            // New Report button
+            document.getElementById('newReportBtn').addEventListener('click', function () {
+                document.getElementById('modalTitle').textContent = 'New Traffic Report';
+                document.getElementById('reportForm').reset();
+                document.getElementById('reportId').value = '';
+                document.getElementById('reportModal').style.display = 'flex';
+            });
+
+            // Close modal buttons
+            document.getElementById('closeModal').addEventListener('click', function () {
+                document.getElementById('reportModal').style.display = 'none';
+            });
+
+            document.getElementById('cancelForm').addEventListener('click', function () {
+                document.getElementById('reportModal').style.display = 'none';
+            });
+
+            // Form submission
+            document.getElementById('reportForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitReportForm();
+            });
+
+            // Apply filters button
+            document.getElementById('applyFilters').addEventListener('click', function () {
+                loadTrafficReports();
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        }
+
+        function loadTrafficReports() {
+            // Get filter values
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const severityFilter = document.getElementById('severityFilter').value;
+
+            fetch('https://localhost:5001/api/TrafficReports', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch traffic reports');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Filter the data based on selected filters
+                    let filteredData = data;
+
+                    if (statusFilter) {
+                        const isResolved = statusFilter === 'true';
+                        filteredData = filteredData.filter(report => report.isResolved === isResolved);
+                    }
+
+                    if (typeFilter) {
+                        filteredData = filteredData.filter(report => report.trafficType === typeFilter);
+                    }
+
+                    if (severityFilter) {
+                        const severity = parseInt(severityFilter);
+                        filteredData = filteredData.filter(report => report.severityLevel === severity);
+                    }
+
+                    currentReports = filteredData;
+                    displayReports(currentPage);
+                    setupPagination();
+                })
+                .catch(error => {
+                    console.error('Error loading traffic reports:', error);
+                    document.getElementById('reportsTableBody').innerHTML = '';
+                    document.getElementById('noDataMessage').style.display = 'block';
+                });
+        }
+
+        function displayReports(page) {
+            const tableBody = document.getElementById('reportsTableBody');
+            tableBody.innerHTML = '';
+
+            const start = (page - 1) * reportsPerPage;
+            const end = start + reportsPerPage;
+            const paginatedItems = currentReports.slice(start, end);
+
+            if (paginatedItems.length === 0) {
+                document.getElementById('noDataMessage').style.display = 'block';
+                document.getElementById('reportsTable').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('noDataMessage').style.display = 'none';
+            document.getElementById('reportsTable').style.display = 'table';
+
+            paginatedItems.forEach(report => {
+                const row = document.createElement('tr');
+
+                // Format date
+                const reportDate = new Date(report.dateReported);
+                const formattedDate = reportDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                // Determine severity class
+                const severityClass = `severity-${report.severityLevel}`;
+
+                // Determine status display
+                const statusClass = report.isResolved ? 'status-resolved' : 'status-unresolved';
+                const statusText = report.isResolved ? 'Resolved' : 'Unresolved';
+
+                row.innerHTML = `
+                            <td>${report.reportID}</td>
+                            <td>${report.citizen ? report.citizen.fullName : 'Citizen #' + report.citizenID}</td>
+                            <td>${report.trafficType}</td>
+                            <td>${report.location}</td>
+                            <td><span class="${severityClass} severity-pill">Level ${report.severityLevel}</span></td>
+                            <td>${formattedDate}</td>
+                            <td><span class="${statusClass} status-pill">${statusText}</span></td>
+                            <td class="action-icons">
+                                <i class="fas fa-edit" onclick="editReport(${report.reportID})"></i>
+                                <i class="fas fa-trash-alt" onclick="deleteReport(${report.reportID})"></i>
+                            </td>
+                        `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupPagination() {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+
+            const totalPages = Math.ceil(currentReports.length / reportsPerPage);
+
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+
+            // Page buttons
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-btn');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayReports(currentPage);
+                    updateActivePaginationButton();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+        }
+
+        function updateActivePaginationButton() {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.textContent) === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function editReport(id) {
+            const report = currentReports.find(r => r.reportID === id);
+            if (!report) return;
+
+            document.getElementById('modalTitle').textContent = 'Edit Traffic Report';
+            document.getElementById('reportId').value = report.reportID;
+            document.getElementById('citizenId').value = report.citizenID;
+            document.getElementById('trafficType').value = report.trafficType;
+            document.getElementById('location').value = report.location;
+            document.getElementById('severityLevel').value = report.severityLevel;
+            document.getElementById('isResolved').value = report.isResolved.toString();
+            document.getElementById('responderId').value = report.responderID || '';
+
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+
+        function deleteReport(id) {
+            if (confirm('Are you sure you want to delete this report?')) {
+                fetch(`https://localhost:5001/api/TrafficReports/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete report');
+                        }
+                        // Reload the reports after successful deletion
+                        loadTrafficReports();
+                        alert('Report deleted successfully');
+                    })
+                    .catch(error => {
+                        console.error('Error deleting report:', error);
+                        alert('Failed to delete report');
+                    });
+            }
+        }
+
+        function submitReportForm() {
+            const reportId = document.getElementById('reportId').value;
+            const reportData = {
+                citizenID: parseInt(document.getElementById('citizenId').value),
+                trafficType: document.getElementById('trafficType').value,
+                location: document.getElementById('location').value,
+                severityLevel: parseInt(document.getElementById('severityLevel').value),
+                isResolved: document.getElementById('isResolved').value === 'true'
+            };
+
+            // Add responderID if provided
+            const responderId = document.getElementById('responderId').value;
+            if (responderId) {
+                reportData.responderID = parseInt(responderId);
+            }
+
+            let url, method;
+
+            if (reportId) {
+                // Update existing report
+                reportData.reportID = parseInt(reportId);
+                url = `https://localhost:5001/api/TrafficReports/${reportId}`;
+                method = 'PUT';
+            } else {
+                // Create new report - set current date for new reports
+                reportData.dateReported = new Date().toISOString();
+                url = 'https://localhost:5001/api/TrafficReports';
+                method = 'POST';
+            }
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify(reportData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to save report');
+                    }
+
+                    // Close modal and reload reports
+                    document.getElementById('reportModal').style.display = 'none';
+                    loadTrafficReports();
+
+                    // Show success message
+                    alert(reportId ? 'Report updated successfully' : 'Report created successfully');
+                })
+                .catch(error => {
+                    console.error('Error saving report:', error);
+                    alert('Failed to save report');
+                });
+        }
+    </script>
+</body>
+</html>

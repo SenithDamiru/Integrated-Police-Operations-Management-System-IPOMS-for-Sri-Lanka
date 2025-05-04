@@ -1,0 +1,85 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\accident-report-page.html",
+      "PackagePath": "staticwebassets\\accident-report-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin-dashboard.html",
+      "PackagePath": "staticwebassets\\admin-dashboard.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin.html",
+      "PackagePath": "staticwebassets\\admin.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\citizen-management-page.html",
+      "PackagePath": "staticwebassets\\citizen-management-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\cybercrime-reports-page.html",
+      "PackagePath": "staticwebassets\\cybercrime-reports-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\emergency-page.html",
+      "PackagePath": "staticwebassets\\emergency-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\feedback-management-page.html",
+      "PackagePath": "staticwebassets\\feedback-management-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\fines-management-page.html",
+      "PackagePath": "staticwebassets\\fines-management-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\home.html",
+      "PackagePath": "staticwebassets\\home.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\login.html",
+      "PackagePath": "staticwebassets\\login.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-officers-page.html",
+      "PackagePath": "staticwebassets\\police-officers-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-reports-page.html",
+      "PackagePath": "staticwebassets\\police-reports-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\robbery-reports-page.html",
+      "PackagePath": "staticwebassets\\robbery-reports-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\security-requests-page.html",
+      "PackagePath": "staticwebassets\\security-requests-page.html"
+    },
+    {
+      "Id": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\traffic-reports-page.html",
+      "PackagePath": "staticwebassets\\traffic-reports-page.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.testproj.props",
+      "PackagePath": "build\\testproj.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.testproj.props",
+      "PackagePath": "buildMultiTargeting\\testproj.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.testproj.props",
+      "PackagePath": "buildTransitive\\testproj.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.testproj.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.testproj.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

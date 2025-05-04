@@ -1,0 +1,1617 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Requests Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --hover-blue: #4285f4;
+            --primary-dark: #0e3a75;
+            --white: #ffffff;
+            --light-gray: #f5f6fa;
+            --accent-red: #ea4335;
+            --text-gray: #5f6368;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0e3a75 0%, #0b1627 100%);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .user-nav button {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-nav button:hover {
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin-right: 0.5rem;
+        }
+
+        .breadcrumb span {
+            margin-right: 0.5rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: var(--hover-blue);
+        }
+
+        .reports-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            padding: 0.8rem 1.2rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .filters {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 0.3rem;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-self: flex-end;
+            margin-top: 1.3rem;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .results-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            border-bottom: 1px solid #eee;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+
+        .status-dispatched {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-resolved {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-icons i {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            transition: color 0.3s ease;
+        }
+
+        .action-icons i:hover {
+            color: var(--primary-blue);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-gray);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-button {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            color: var(--text-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .report-details {
+            padding: 1.5rem 0;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .detail-row.full-width {
+            flex-direction: column;
+        }
+
+        .detail-label {
+            width: 150px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .description-box {
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid #4caf50;
+        }
+
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i {
+            color: #4caf50;
+        }
+
+        .notification.error i {
+            color: #f44336;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pagination button.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .user-nav {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-actions {
+                align-self: stretch;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .action-icons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 85vh;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Sri Lanka Police</h1>
+        </div>
+        <div class="user-nav">
+            <span id="userGreeting">Welcome, Officer</span>
+            <!--<i class="fas fa-bell" style="cursor: pointer;"></i>-->
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="home.html">Home</a>
+            <span>></span>
+            <span>Emergency Requests</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Emergency Requests</h1>
+            <button class="action-button" id="newRequestBtn">
+                <i class="fas fa-plus"></i> New Emergency Request
+            </button>
+        </div>
+
+        <div class="reports-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by ID, type, citizen name...">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Dispatched">Dispatched</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="typeFilter">Emergency Type</label>
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Fire">Fire</option>
+                        <option value="Police">Police</option>
+                        <option value="Accident">Accident</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="startDate">From Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">To Date</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="filter-actions">
+                    <button type="button" class="filter-button" id="applyFilters">Apply Filters</button>
+                    <button type="button" class="reset-button" id="resetFilters">Reset Filters</button>
+                </div>
+            </div>
+
+            <div class="results-summary">
+                <p>Showing <span id="reportCount">0</span> emergency requests</p>
+                <div id="loadingIndicator" class="loading-spinner" style="display: none;"></div>
+            </div>
+
+            <table id="reportsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Citizen</th>
+                        <th>Emergency Type</th>
+                        <th>Location</th>
+                        <th>Date Requested</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reportsTableBody">
+                    <!-- Table content will be loaded dynamically -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>No emergency requests found</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- New Emergency Request Modal -->
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">New Emergency Request</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="requestForm">
+                <input type="hidden" id="emergencyId">
+
+                <div class="form-group">
+                    <label for="requestType">Emergency Type*</label>
+                    <select id="requestType" required>
+                        <option value="">Select Type</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Fire">Fire</option>
+                        <option value="Police">Police</option>
+                        <option value="Accident">Accident</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location*</label>
+                    <input type="text" id="location" required placeholder="Enter location">
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number*</label>
+                    <input type="tel" id="contactNumber" required placeholder="Emergency contact number">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description*</label>
+                    <textarea id="description" required placeholder="Provide detailed description of the emergency"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="citizenId">Citizen*</label>
+                    <select id="citizenId" required>
+                        <option value="">-- Select Citizen --</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status*</label>
+                    <select id="status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Dispatched">Dispatched</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="officerId">Assigned Officer</label>
+                    <select id="officerId">
+                        <option value="">-- No Officer Assigned --</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="resolutionNotes">Resolution Notes</label>
+                    <textarea id="resolutionNotes" placeholder="Enter resolution notes"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelForm">Cancel</button>
+                    <button type="submit" class="submit-button" id="submitButton">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Emergency Request Details Modal -->
+    <div class="modal" id="viewReportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Emergency Request Details</h2>
+                <button class="close-modal" id="closeViewModal">&times;</button>
+            </div>
+            <div class="report-details">
+                <div class="detail-row">
+                    <div class="detail-label">Request ID:</div>
+                    <div class="detail-value" id="viewReportId"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Citizen:</div>
+                    <div class="detail-value" id="viewCitizenName"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Emergency Type:</div>
+                    <div class="detail-value" id="viewReportType"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Location:</div>
+                    <div class="detail-value" id="viewLocation"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Contact Number:</div>
+                    <div class="detail-value" id="viewContactNumber"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Date Requested:</div>
+                    <div class="detail-value" id="viewDateRequested"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status:</div>
+                    <div class="detail-value">
+                        <span id="viewStatus" class="status-pill"></span>
+                    </div>
+                </div>
+                <div class="detail-row full-width">
+                    <div class="detail-label">Description:</div>
+                    <div class="detail-value description-box" id="viewDescription"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-button" id="editFromViewBtn">
+                    <i class="fas fa-edit"></i> Edit Request
+                </button>
+                <button class="cancel-button" id="closeViewBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Sri Lanka Police Management System | Emergency: 119</p>
+    </footer>
+    <script>
+        // Emergency Requests Management JavaScript
+
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM fully loaded and parsed');
+
+    // Check if user is logged in (token exists)
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('No authentication token found');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Add console logs to track initialization
+    console.log('Setting up event listeners');
+    setupEventListeners();
+
+    console.log('Loading emergency requests');
+    loadEmergencyRequests();
+
+    // Load citizens and officers for dropdowns
+    loadCitizensDropdown();
+    loadOfficersDropdown();
+});
+
+let currentRequests = []; // Store the current emergency requests data
+const requestsPerPage = 10;
+let currentPage = 1;
+
+// Function to load citizens for dropdown
+function loadCitizensDropdown() {
+    console.log('Loading citizens for dropdown');
+
+    fetch('https://localhost:5001/api/Emergency/Citizens', {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                console.error('Error response from Citizens endpoint:', text);
+                throw new Error(`Failed to fetch citizens: HTTP ${response.status} - ${text}`);
+            });
+        }
+        return response.json();
+    })
+    .then(citizens => {
+        const citizenDropdown = document.getElementById('citizenId');
+
+        // Clear existing options
+        citizenDropdown.innerHTML = '';
+
+        // Add blank option
+        const blankOption = document.createElement('option');
+        blankOption.value = '';
+        blankOption.textContent = '-- Select Citizen --';
+        citizenDropdown.appendChild(blankOption);
+
+        // Add options for each citizen
+        citizens.forEach(citizen => {
+            const option = document.createElement('option');
+            option.value = citizen.citizenID;
+            option.textContent = `${citizen.citizenID} - ${citizen.fullName}`;
+            citizenDropdown.appendChild(option);
+        });
+
+        console.log('Citizens dropdown populated with', citizens.length, 'citizens');
+    })
+    .catch(error => {
+        console.error('Error loading citizens:', error);
+        showNotification('Error loading citizens list: ' + error.message, 'error');
+    });
+}
+
+// Function to load officers for dropdown
+function loadOfficersDropdown() {
+    console.log('Loading officers for dropdown');
+
+    fetch('https://localhost:5001/api/Emergency/Officers', {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                console.error('Error response from Officers endpoint:', text);
+                throw new Error(`Failed to fetch officers: HTTP ${response.status} - ${text}`);
+            });
+        }
+        return response.json();
+    })
+    .then(officers => {
+        const officerDropdown = document.getElementById('officerId');
+
+        // Clear existing options
+        officerDropdown.innerHTML = '';
+
+        // Add blank option
+        const blankOption = document.createElement('option');
+        blankOption.value = '';
+        blankOption.textContent = '-- No Officer Assigned --';
+        officerDropdown.appendChild(blankOption);
+
+        // Add options for each officer
+        officers.forEach(officer => {
+            const option = document.createElement('option');
+            option.value = officer.officerID;
+            option.textContent = `${officer.officerID} - ${officer.fullName}`;
+            officerDropdown.appendChild(option);
+        });
+
+        console.log('Officers dropdown populated with', officers.length, 'officers');
+    })
+    .catch(error => {
+        console.error('Error loading officers:', error);
+        showNotification('Error loading officers list: ' + error.message, 'error');
+    });
+}
+
+function setupEventListeners() {
+    console.log('Attaching event listeners');
+
+    // New Request button
+    const newRequestBtn = document.getElementById('newRequestBtn');
+    if (newRequestBtn) {
+        newRequestBtn.addEventListener('click', function () {
+            console.log('New Request button clicked');
+            document.getElementById('modalTitle').textContent = 'New Emergency Request';
+            document.getElementById('requestForm').reset();
+            document.getElementById('emergencyId').value = '';
+            document.getElementById('requestModal').style.display = 'flex';
+        });
+    } else {
+        console.error('New Request button not found');
+    }
+
+    // Close modal buttons
+    const closeModalBtn = document.getElementById('closeModal');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function () {
+            document.getElementById('requestModal').style.display = 'none';
+        });
+    }
+
+    const cancelFormBtn = document.getElementById('cancelForm');
+    if (cancelFormBtn) {
+        cancelFormBtn.addEventListener('click', function () {
+            document.getElementById('requestModal').style.display = 'none';
+        });
+    }
+
+    // Form submission
+    const requestForm = document.getElementById('requestForm');
+    if (requestForm) {
+        requestForm.addEventListener('submit', function (e) {
+            console.log('Request Form submitted');
+            e.preventDefault();
+            submitRequestForm();
+        });
+    } else {
+        console.error('Request Form not found');
+    }
+
+    // Close view modal buttons
+    const closeViewModalBtn = document.getElementById('closeViewModal');
+    if (closeViewModalBtn) {
+        closeViewModalBtn.addEventListener('click', function () {
+            document.getElementById('viewReportModal').style.display = 'none';
+        });
+    }
+
+    const closeViewBtn = document.getElementById('closeViewBtn');
+    if (closeViewBtn) {
+        closeViewBtn.addEventListener('click', function () {
+            document.getElementById('viewReportModal').style.display = 'none';
+        });
+    }
+
+    // Edit from view button
+    const editFromViewBtn = document.getElementById('editFromViewBtn');
+    if (editFromViewBtn) {
+        editFromViewBtn.addEventListener('click', function () {
+            const reportId = document.getElementById('viewReportId').textContent;
+            document.getElementById('viewReportModal').style.display = 'none';
+
+            // Find and edit the request
+            const request = currentRequests.find(r => r.emergencyID == reportId);
+            if (request) {
+                editRequest(request.emergencyID);
+            }
+        });
+    }
+
+// Logout button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function () {
+            console.log('Logout button clicked');
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+    } else {
+        console.error('Logout button not found');
+    }
+
+    // Apply Filters button
+    const applyFiltersBtn = document.getElementById('applyFilters');
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', function () {
+            console.log('Apply Filters button clicked');
+            applyFilters();
+        });
+    } else {
+        console.error('Apply Filters button not found');
+    }
+
+    // Reset Filters button
+    const resetFiltersBtn = document.getElementById('resetFilters');
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', function () {
+            console.log('Reset Filters button clicked');
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            loadEmergencyRequests();
+        });
+    } else {
+        console.error('Reset Filters button not found');
+    }
+
+    // Search button
+    const searchButton = document.getElementById('searchButton');
+    if (searchButton) {
+        searchButton.addEventListener('click', function () {
+            console.log('Search button clicked');
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm) {
+                searchRequests(searchTerm);
+            } else {
+                loadEmergencyRequests();
+            }
+        });
+    } else {
+        console.error('Search button not found');
+    }
+}
+
+function loadEmergencyRequests() {
+    console.log('Loading emergency requests...');
+    showLoading(true);
+
+    // Additional error handling
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        // Make sure the URL matches your controller name exactly
+        fetch('https://localhost:5001/api/Emergency', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => {
+            console.log('Fetch response received', response.status);
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error('Error response:', text);
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${text}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Emergency requests loaded:', data);
+            currentRequests = data;
+            currentPage = 1;
+            displayRequests(currentPage);
+            setupPagination();
+            updateReportCount(data.length);
+            showLoading(false);
+        })
+        .catch(error => {
+            console.error('Error in loadEmergencyRequests:', error);
+            showNotification('Failed to load requests: ' + error.message, 'error');
+            showLoading(false);
+
+            // Show no data message when there's an error
+            document.getElementById('noDataMessage').style.display = 'block';
+            document.getElementById('reportsTable').style.display = 'none';
+        });
+    } catch (error) {
+        console.error('Unexpected error in loadEmergencyRequests:', error);
+        showNotification('Unexpected error occurred', 'error');
+        showLoading(false);
+    }
+}
+
+function applyFilters() {
+    console.log('Applying filters...');
+    showLoading(true);
+
+    // Get filter values
+    const statusFilter = document.getElementById('statusFilter').value;
+    const typeFilter = document.getElementById('typeFilter').value;
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    fetch('https://localhost:5001/api/Emergency', {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch emergency requests');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Filter the data based on selected filters
+        let filteredData = data;
+
+        if (statusFilter) {
+            filteredData = filteredData.filter(request => request.status === statusFilter);
+        }
+
+        if (typeFilter) {
+            filteredData = filteredData.filter(request => request.requestType === typeFilter);
+        }
+
+        // Date range filtering
+        if (startDate) {
+            const startDateObj = new Date(startDate);
+            startDateObj.setHours(0, 0, 0, 0);
+            filteredData = filteredData.filter(request => {
+                const requestDate = new Date(request.requestTime);
+                return requestDate >= startDateObj;
+            });
+        }
+
+        if (endDate) {
+            const endDateObj = new Date(endDate);
+            endDateObj.setHours(23, 59, 59, 999);
+            filteredData = filteredData.filter(request => {
+                const requestDate = new Date(request.requestTime);
+                return requestDate <= endDateObj;
+            });
+        }
+
+        currentRequests = filteredData;
+        currentPage = 1;
+        displayRequests(currentPage);
+        setupPagination();
+        updateReportCount(filteredData.length);
+        showLoading(false);
+
+        showNotification(`Found ${filteredData.length} matching requests`, 'success');
+    })
+    .catch(error => {
+        console.error('Error applying filters:', error);
+        showNotification('Error applying filters: ' + error.message, 'error');
+        showLoading(false);
+    });
+}
+
+function searchRequests(searchTerm) {
+    console.log('Searching requests...');
+    showLoading(true);
+    searchTerm = searchTerm.toLowerCase();
+
+    fetch('https://localhost:5001/api/Emergency', {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch emergency requests');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Enhanced search to include citizen and officer names
+        const filteredData = data.filter(request => {
+            const matchesBasicFields =
+                (request.emergencyID && request.emergencyID.toString().includes(searchTerm)) ||
+                (request.requestType && request.requestType.toLowerCase().includes(searchTerm)) ||
+                (request.status && request.status.toLowerCase().includes(searchTerm)) ||
+                (request.description && request.description.toLowerCase().includes(searchTerm)) ||
+                (request.location && request.location.toLowerCase().includes(searchTerm));
+
+            // Also search in related entities if they exist
+            const matchesCitizen = request.citizen && request.citizen.fullName &&
+                request.citizen.fullName.toLowerCase().includes(searchTerm);
+
+            const matchesOfficer = request.officer && request.officer.fullName &&
+                request.officer.fullName.toLowerCase().includes(searchTerm);
+
+            return matchesBasicFields || matchesCitizen || matchesOfficer;
+        });
+
+        currentRequests = filteredData;
+        currentPage = 1;
+        displayRequests(currentPage);
+        setupPagination();
+        updateReportCount(filteredData.length);
+        showLoading(false);
+
+        showNotification(`Found ${filteredData.length} requests matching "${searchTerm}"`, 'success');
+    })
+    .catch(error => {
+        console.error('Error searching requests:', error);
+        showNotification('Error searching requests: ' + error.message, 'error');
+        showLoading(false);
+    });
+}
+
+function submitRequestForm() {
+    console.log('Submitting request form...');
+
+    // Disable submit button to prevent double submission
+    const submitButton = document.getElementById('submitButton');
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+    // Prepare request data
+    const requestData = {
+        RequestType: document.getElementById('requestType').value || null,
+        Location: document.getElementById('location').value || null,
+        ContactNumber: document.getElementById('contactNumber').value || null,
+        Description: document.getElementById('description').value || null,
+        Status: document.getElementById('status').value || 'Pending',
+        ResolutionNotes: document.getElementById('resolutionNotes').value || null
+    };
+
+    // Parse CitizenID (if value exists)
+    const citizenIdValue = document.getElementById('citizenId').value;
+    requestData.CitizenID = citizenIdValue ? parseInt(citizenIdValue) : null;
+
+    // Parse OfficerID (if value exists)
+    const officerIdValue = document.getElementById('officerId').value;
+    requestData.OfficerID = officerIdValue ? parseInt(officerIdValue) : null;
+
+    // Get emergencyId if exists (for updates)
+    const emergencyId = document.getElementById('emergencyId').value;
+
+    let url, method;
+
+    if (emergencyId) {
+        // Update existing request
+        requestData.EmergencyID = parseInt(emergencyId);
+        url = `https://localhost:5001/api/Emergency/${emergencyId}`;
+        method = 'PUT';
+    } else {
+        // Create new request
+        url = 'https://localhost:5001/api/Emergency';
+        method = 'POST';
+
+        // Set RequestTime for new requests
+        requestData.RequestTime = new Date().toISOString();
+    }
+
+    console.log('Request data being submitted:', requestData);
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                console.error('Error response:', text);
+                throw new Error(`HTTP error! status: ${response.status}, message: ${text}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Close modal and reload requests
+        document.getElementById('requestModal').style.display = 'none';
+        loadEmergencyRequests();
+
+        // Show success message
+        showNotification(
+            emergencyId ? 'Emergency request updated successfully' : 'Emergency request created successfully',
+            'success'
+        );
+    })
+    .catch(error => {
+        console.error('Error saving request:', error);
+
+        // Show a more detailed error message if possible
+        try {
+            const errorText = error.message.replace(/HTTP error! status: \d+, message: /, '');
+            const errorData = JSON.parse(errorText);
+
+            if (errorData.errors) {
+                // Format validation errors
+                const errorMessages = Object.values(errorData.errors)
+                    .flat()
+                    .join('\n');
+                showNotification(`Validation errors:\n${errorMessages}`, 'error');
+            } else if (errorData.title) {
+                showNotification(errorData.title, 'error');
+            } else {
+                showNotification('Failed to save request: ' + error.message, 'error');
+            }
+        } catch {
+            // Fallback for when we can't parse the error
+            showNotification('Failed to save request: ' + error.message, 'error');
+        }
+    })
+    .finally(() => {
+        // Re-enable submit button
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Submit';
+    });
+}
+
+function editRequest(id) {
+    console.log('Editing request:', id);
+    const request = currentRequests.find(r => r.emergencyID === id);
+    if (!request) return;
+
+    document.getElementById('modalTitle').textContent = 'Edit Emergency Request';
+
+    // Fill in form fields with request data
+    document.getElementById('emergencyId').value = request.emergencyID || '';
+    document.getElementById('requestType').value = request.requestType || '';
+    document.getElementById('location').value = request.location || '';
+    document.getElementById('contactNumber').value = request.contactNumber || '';
+    document.getElementById('description').value = request.description || '';
+    document.getElementById('resolutionNotes').value = request.resolutionNotes || '';
+    document.getElementById('status').value = request.status || 'Pending';
+
+    // Set CitizenID and OfficerID in the dropdowns
+    document.getElementById('citizenId').value = request.citizenID || '';
+    document.getElementById('officerId').value = request.officerID || '';
+
+    document.getElementById('requestModal').style.display = 'flex';
+}
+
+function deleteRequest(id) {
+    console.log('Deleting request:', id);
+    if (confirm('Are you sure you want to delete this emergency request?')) {
+        fetch(`https://localhost:5001/api/Emergency/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete request');
+            }
+
+            // Reload the requests after successful deletion
+            loadEmergencyRequests();
+
+            // Show success notification
+            showNotification('Emergency request deleted successfully', 'success');
+        })
+        .catch(error => {
+            console.error('Error deleting request:', error);
+            showNotification('Failed to delete request: ' + error.message, 'error');
+        });
+    }
+}
+
+function displayRequests(page) {
+    console.log('Displaying requests for page:', page);
+    const tableBody = document.getElementById('reportsTableBody');
+    tableBody.innerHTML = '';
+
+    const start = (page - 1) * requestsPerPage;
+    const end = start + requestsPerPage;
+    const paginatedItems = currentRequests.slice(start, end);
+
+    if (paginatedItems.length === 0) {
+        document.getElementById('noDataMessage').style.display = 'block';
+        document.getElementById('reportsTable').style.display = 'none';
+        return;
+    }
+
+    document.getElementById('noDataMessage').style.display = 'none';
+    document.getElementById('reportsTable').style.display = 'table';
+
+    paginatedItems.forEach(request => {
+        const row = document.createElement('tr');
+
+        // Determine status class with fallback
+        let statusClass = 'status-pending';
+        if (request.status === 'Dispatched') {
+            statusClass = 'status-dispatched';
+        } else if (request.status === 'Resolved') {
+            statusClass = 'status-resolved';
+        }
+
+        // Format date with fallback
+        const requestDate = request.requestTime
+            ? new Date(request.requestTime)
+            : new Date();
+        const formattedDate = requestDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+
+        // Handle citizen display - use proper navigation property if exists
+        let citizenDisplay = 'Unknown';
+        if (request.citizen && request.citizen.fullName) {
+            citizenDisplay = request.citizen.fullName;
+        } else if (request.citizenID) {
+            citizenDisplay = 'Citizen #' + request.citizenID;
+        }
+
+        row.innerHTML = `
+            <td>${request.emergencyID || 'N/A'}</td>
+            <td>${citizenDisplay}</td>
+            <td>${request.requestType || 'Not Specified'}</td>
+            <td>${request.location || 'Not Provided'}</td>
+            <td>${formattedDate}</td>
+            <td><span class="${statusClass} status-pill">${request.status || 'Pending'}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-eye" title="View Details" onclick="viewRequestDetails(${request.emergencyID})"></i>
+                <i class="fas fa-edit" title="Edit Request" onclick="editRequest(${request.emergencyID})"></i>
+                <i class="fas fa-trash-alt" title="Delete Request" onclick="deleteRequest(${request.emergencyID})"></i>
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+function viewRequestDetails(id) {
+    console.log('Viewing request details:', id);
+    const request = currentRequests.find(r => r.emergencyID === id);
+    if (!request) return;
+
+    document.getElementById('viewReportId').textContent = request.emergencyID || 'N/A';
+
+    // Handle citizen display
+    let citizenDisplay = 'Unknown';
+    if (request.citizen && request.citizen.fullName) {
+        citizenDisplay = request.citizen.fullName;
+    } else if (request.citizenID) {
+        citizenDisplay = 'Citizen #' + request.citizenID;
+    }
+    document.getElementById('viewCitizenName').textContent = citizenDisplay;
+
+    document.getElementById('viewReportType').textContent = request.requestType || 'Not Specified';
+    document.getElementById('viewLocation').textContent = request.location || 'Not Provided';
+    document.getElementById('viewContactNumber').textContent = request.contactNumber || 'Not Available';
+    document.getElementById('viewDescription').textContent = request.description || 'No description provided';
+
+    // Handle date formatting with fallback
+    const requestDate = request.requestTime
+        ? new Date(request.requestTime)
+        : new Date();
+    document.getElementById('viewDateRequested').textContent = requestDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    // Set status with appropriate class
+    const statusElement = document.getElementById('viewStatus');
+    statusElement.textContent = request.status || 'Pending';
+    statusElement.className = 'status-pill';
+
+    if (request.status === 'Pending') {
+        statusElement.classList.add('status-pending');
+    } else if (request.status === 'Dispatched') {
+        statusElement.classList.add('status-dispatched');
+    } else if (request.status === 'Resolved') {
+        statusElement.classList.add('status-resolved');
+    }
+
+    document.getElementById('viewReportModal').style.display = 'flex';
+}
+
+function updateReportCount(count) {
+    document.getElementById('reportCount').textContent = count;
+}
+
+function setupPagination() {
+    const paginationElement = document.getElementById('pagination');
+    paginationElement.innerHTML = '';
+
+    const totalPages = Math.ceil(currentRequests.length / requestsPerPage);
+
+    if (totalPages <= 1) {
+        return;
+    }
+
+    // Previous button
+    const prevButton = document.createElement('button');
+    prevButton.innerHTML = '&laquo;';
+    prevButton.title = 'Previous Page';
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayRequests(currentPage);
+            updateActivePaginationButton();
+        }
+    });
+    paginationElement.appendChild(prevButton);
+
+    // Page buttons - simplified logic to show max 5 pages
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    // Adjust if we're near the end
+    if (endPage - startPage + 1 < maxPagesToShow) {
+        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    // Create page buttons
+    for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.classList.add('page-btn');
+        if (i === currentPage) {
+            pageButton.classList.add('active');
+        }
+        pageButton.addEventListener('click', () => {
+            currentPage = i;
+            displayRequests(currentPage);
+            updateActivePaginationButton();
+        });
+        paginationElement.appendChild(pageButton);
+    }
+
+    // Next button
+    const nextButton = document.createElement('button');
+    nextButton.innerHTML = '&raquo;';
+    nextButton.title = 'Next Page';
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayRequests(currentPage);
+            updateActivePaginationButton();
+        }
+    });
+    paginationElement.appendChild(nextButton);
+}
+
+function updateActivePaginationButton() {
+    document.querySelectorAll('.page-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (parseInt(btn.textContent) === currentPage) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+function showLoading(isLoading) {
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const tableElement = document.getElementById('reportsTable');
+
+    if (isLoading) {
+        loadingIndicator.style.display = 'block';
+        tableElement.style.display = 'none';
+        document.getElementById('noDataMessage').style.display = 'none';
+    } else {
+        loadingIndicator.style.display = 'none';
+    }
+}
+
+function showNotification(message, type) {
+    // Remove any existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+
+    // Add icon based on type
+    const icon = document.createElement('i');
+    if (type === 'success') {
+        icon.className = 'fas fa-check-circle';
+    } else if (type === 'error') {
+        icon.className = 'fas fa-exclamation-circle';
+    }
+    notification.appendChild(icon);
+
+    // Add message text
+    const messageText = document.createElement('span');
+    messageText.textContent = ' ' + message;
+    notification.appendChild(messageText);
+
+    document.body.appendChild(notification);
+
+    // Show notification
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+
+    // Hide and remove after delay
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 3000);
+}
+
+// Expose global functions for inline event handlers
+window.viewRequestDetails = viewRequestDetails;
+window.editRequest = editRequest;
+window.deleteRequest = deleteRequest;
+    </script>
+</body>
+</html>

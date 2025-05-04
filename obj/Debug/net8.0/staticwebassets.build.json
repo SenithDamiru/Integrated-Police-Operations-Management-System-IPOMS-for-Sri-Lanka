@@ -1,0 +1,1567 @@
+{
+  "Version": 1,
+  "Hash": "8DYeBzswV4Lj4zl9i2uu3P2kBovw2NrSZgYDyLtBwwI=",
+  "Source": "testproj",
+  "BasePath": "_content/testproj",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "testproj\\wwwroot",
+      "Source": "testproj",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\accident-report-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "accident-report-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "mioe4vqhjp",
+      "Integrity": "nrNbdXuqwKxN+nhYLR1O3kQom/u0JJ8NyeVnHeEuyys=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\accident-report-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "admin#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "kxpoabtq52",
+      "Integrity": "uMDE7NPMkuOMMB//lR1rp4qlM8PAx73Y+oPn8MYkIU4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\admin.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin-dashboard.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "admin-dashboard#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "4vmd0olyi0",
+      "Integrity": "ABsEk1G5/yqlgphxnmHqqpDzpQ9ODzf5hXDgFj49buc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\admin-dashboard.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\citizen-management-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "citizen-management-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "g9wcn6kqjl",
+      "Integrity": "rMIis0qXFXedzbZAqUUZ83LxXdUdGe1Ibms2SPeBmi8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\citizen-management-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\cybercrime-reports-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "cybercrime-reports-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "u06bb2t7zt",
+      "Integrity": "PraGxyayLecjSrQi8sRtQQTtqFRf6dfwEGK01c0jbTM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\cybercrime-reports-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\emergency-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "emergency-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ofvzc8w28m",
+      "Integrity": "5LVgwbHgnKpsx3/inKpciXaecanjTQpdP1PG8bsluMo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\emergency-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\feedback-management-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "feedback-management-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "t8fk3qfrgv",
+      "Integrity": "LcVOXx5xQH1T+459u/gkFjpjUB2HFrI9Aep7yOb5JbU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\feedback-management-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\fines-management-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "fines-management-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "idw6r26obo",
+      "Integrity": "ZoyZ+FRuNCdNkZvefGOq93xkUi/FsyrhVU6SzCrlY28=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\fines-management-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\home.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "home#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "snizguk3f8",
+      "Integrity": "yG7G+yhYuf6THLSYUUloCQepmXVhMTgdSpDJUqKH2+c=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\home.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\login.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "login#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "jwimw1ah5r",
+      "Integrity": "zVLHNF/7H83gXjSay6AqF2phDUjs0WSV8HxPiaIndp8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\login.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-officers-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "police-officers-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "atc3ggmeay",
+      "Integrity": "YmyEaWlTMlm74tOPvdKXTUAXyewX+IdlGX0811caEgs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\police-officers-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-reports-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "police-reports-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "endn1zqsfr",
+      "Integrity": "2lFgHy6rtb0hI3ACBDlDaAqLgde3eD5e6te9pBFKLh8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\police-reports-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\robbery-reports-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "robbery-reports-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "fuern0d1v5",
+      "Integrity": "GfW5bY6ltcPRPLNr7GMQsg0Hcg0gvTeM1oIVOHJvgXQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\robbery-reports-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\security-requests-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "security-requests-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "pgoai2qj1d",
+      "Integrity": "p2vKhvNIQvTogYARecP4ttLDi4A7i6M6GSiDpvAWxQM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\security-requests-page.html"
+    },
+    {
+      "Identity": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\traffic-reports-page.html",
+      "SourceId": "testproj",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\",
+      "BasePath": "_content/testproj",
+      "RelativePath": "traffic-reports-page#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "n0iqyab63i",
+      "Integrity": "SSj1e5JivMHVr75Wk/jdJx4PnVTQGduzhkAprnlnk2A=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\traffic-reports-page.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "accident-report-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\accident-report-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "42985"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nrNbdXuqwKxN+nhYLR1O3kQom/u0JJ8NyeVnHeEuyys=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 18:39:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-nrNbdXuqwKxN+nhYLR1O3kQom/u0JJ8NyeVnHeEuyys="
+        }
+      ]
+    },
+    {
+      "Route": "accident-report-page.mioe4vqhjp.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\accident-report-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "42985"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nrNbdXuqwKxN+nhYLR1O3kQom/u0JJ8NyeVnHeEuyys=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 18:39:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "mioe4vqhjp"
+        },
+        {
+          "Name": "label",
+          "Value": "accident-report-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-nrNbdXuqwKxN+nhYLR1O3kQom/u0JJ8NyeVnHeEuyys="
+        }
+      ]
+    },
+    {
+      "Route": "admin.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37362"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uMDE7NPMkuOMMB//lR1rp4qlM8PAx73Y+oPn8MYkIU4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 12:29:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-uMDE7NPMkuOMMB//lR1rp4qlM8PAx73Y+oPn8MYkIU4="
+        }
+      ]
+    },
+    {
+      "Route": "admin.kxpoabtq52.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37362"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uMDE7NPMkuOMMB//lR1rp4qlM8PAx73Y+oPn8MYkIU4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 12:29:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "kxpoabtq52"
+        },
+        {
+          "Name": "label",
+          "Value": "admin.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-uMDE7NPMkuOMMB//lR1rp4qlM8PAx73Y+oPn8MYkIU4="
+        }
+      ]
+    },
+    {
+      "Route": "admin-dashboard.4vmd0olyi0.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin-dashboard.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7876"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ABsEk1G5/yqlgphxnmHqqpDzpQ9ODzf5hXDgFj49buc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 19:05:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4vmd0olyi0"
+        },
+        {
+          "Name": "label",
+          "Value": "admin-dashboard.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ABsEk1G5/yqlgphxnmHqqpDzpQ9ODzf5hXDgFj49buc="
+        }
+      ]
+    },
+    {
+      "Route": "admin-dashboard.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\admin-dashboard.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7876"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ABsEk1G5/yqlgphxnmHqqpDzpQ9ODzf5hXDgFj49buc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 19:05:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ABsEk1G5/yqlgphxnmHqqpDzpQ9ODzf5hXDgFj49buc="
+        }
+      ]
+    },
+    {
+      "Route": "citizen-management-page.g9wcn6kqjl.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\citizen-management-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43769"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rMIis0qXFXedzbZAqUUZ83LxXdUdGe1Ibms2SPeBmi8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "g9wcn6kqjl"
+        },
+        {
+          "Name": "label",
+          "Value": "citizen-management-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-rMIis0qXFXedzbZAqUUZ83LxXdUdGe1Ibms2SPeBmi8="
+        }
+      ]
+    },
+    {
+      "Route": "citizen-management-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\citizen-management-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43769"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rMIis0qXFXedzbZAqUUZ83LxXdUdGe1Ibms2SPeBmi8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-rMIis0qXFXedzbZAqUUZ83LxXdUdGe1Ibms2SPeBmi8="
+        }
+      ]
+    },
+    {
+      "Route": "cybercrime-reports-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\cybercrime-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "42319"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PraGxyayLecjSrQi8sRtQQTtqFRf6dfwEGK01c0jbTM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PraGxyayLecjSrQi8sRtQQTtqFRf6dfwEGK01c0jbTM="
+        }
+      ]
+    },
+    {
+      "Route": "cybercrime-reports-page.u06bb2t7zt.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\cybercrime-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "42319"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PraGxyayLecjSrQi8sRtQQTtqFRf6dfwEGK01c0jbTM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u06bb2t7zt"
+        },
+        {
+          "Name": "label",
+          "Value": "cybercrime-reports-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PraGxyayLecjSrQi8sRtQQTtqFRf6dfwEGK01c0jbTM="
+        }
+      ]
+    },
+    {
+      "Route": "emergency-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\emergency-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "54825"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5LVgwbHgnKpsx3/inKpciXaecanjTQpdP1PG8bsluMo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5LVgwbHgnKpsx3/inKpciXaecanjTQpdP1PG8bsluMo="
+        }
+      ]
+    },
+    {
+      "Route": "emergency-page.ofvzc8w28m.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\emergency-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "54825"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5LVgwbHgnKpsx3/inKpciXaecanjTQpdP1PG8bsluMo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ofvzc8w28m"
+        },
+        {
+          "Name": "label",
+          "Value": "emergency-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-5LVgwbHgnKpsx3/inKpciXaecanjTQpdP1PG8bsluMo="
+        }
+      ]
+    },
+    {
+      "Route": "feedback-management-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\feedback-management-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43610"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"LcVOXx5xQH1T+459u/gkFjpjUB2HFrI9Aep7yOb5JbU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 12:39:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-LcVOXx5xQH1T+459u/gkFjpjUB2HFrI9Aep7yOb5JbU="
+        }
+      ]
+    },
+    {
+      "Route": "feedback-management-page.t8fk3qfrgv.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\feedback-management-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43610"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"LcVOXx5xQH1T+459u/gkFjpjUB2HFrI9Aep7yOb5JbU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 12:39:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "t8fk3qfrgv"
+        },
+        {
+          "Name": "label",
+          "Value": "feedback-management-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-LcVOXx5xQH1T+459u/gkFjpjUB2HFrI9Aep7yOb5JbU="
+        }
+      ]
+    },
+    {
+      "Route": "fines-management-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\fines-management-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "54133"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ZoyZ+FRuNCdNkZvefGOq93xkUi/FsyrhVU6SzCrlY28=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ZoyZ+FRuNCdNkZvefGOq93xkUi/FsyrhVU6SzCrlY28="
+        }
+      ]
+    },
+    {
+      "Route": "fines-management-page.idw6r26obo.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\fines-management-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "54133"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ZoyZ+FRuNCdNkZvefGOq93xkUi/FsyrhVU6SzCrlY28=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "idw6r26obo"
+        },
+        {
+          "Name": "label",
+          "Value": "fines-management-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ZoyZ+FRuNCdNkZvefGOq93xkUi/FsyrhVU6SzCrlY28="
+        }
+      ]
+    },
+    {
+      "Route": "home.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\home.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "18078"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yG7G+yhYuf6THLSYUUloCQepmXVhMTgdSpDJUqKH2+c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 19:03:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-yG7G+yhYuf6THLSYUUloCQepmXVhMTgdSpDJUqKH2+c="
+        }
+      ]
+    },
+    {
+      "Route": "home.snizguk3f8.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\home.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "18078"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yG7G+yhYuf6THLSYUUloCQepmXVhMTgdSpDJUqKH2+c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 19:03:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "snizguk3f8"
+        },
+        {
+          "Name": "label",
+          "Value": "home.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-yG7G+yhYuf6THLSYUUloCQepmXVhMTgdSpDJUqKH2+c="
+        }
+      ]
+    },
+    {
+      "Route": "login.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\login.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "21290"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zVLHNF/7H83gXjSay6AqF2phDUjs0WSV8HxPiaIndp8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 07:10:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-zVLHNF/7H83gXjSay6AqF2phDUjs0WSV8HxPiaIndp8="
+        }
+      ]
+    },
+    {
+      "Route": "login.jwimw1ah5r.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\login.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "21290"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zVLHNF/7H83gXjSay6AqF2phDUjs0WSV8HxPiaIndp8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 07:10:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "jwimw1ah5r"
+        },
+        {
+          "Name": "label",
+          "Value": "login.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-zVLHNF/7H83gXjSay6AqF2phDUjs0WSV8HxPiaIndp8="
+        }
+      ]
+    },
+    {
+      "Route": "police-officers-page.atc3ggmeay.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-officers-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "63852"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"YmyEaWlTMlm74tOPvdKXTUAXyewX+IdlGX0811caEgs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 19:37:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "atc3ggmeay"
+        },
+        {
+          "Name": "label",
+          "Value": "police-officers-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-YmyEaWlTMlm74tOPvdKXTUAXyewX+IdlGX0811caEgs="
+        }
+      ]
+    },
+    {
+      "Route": "police-officers-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-officers-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "63852"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"YmyEaWlTMlm74tOPvdKXTUAXyewX+IdlGX0811caEgs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 19:37:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-YmyEaWlTMlm74tOPvdKXTUAXyewX+IdlGX0811caEgs="
+        }
+      ]
+    },
+    {
+      "Route": "police-reports-page.endn1zqsfr.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "51240"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2lFgHy6rtb0hI3ACBDlDaAqLgde3eD5e6te9pBFKLh8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 19:41:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "endn1zqsfr"
+        },
+        {
+          "Name": "label",
+          "Value": "police-reports-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-2lFgHy6rtb0hI3ACBDlDaAqLgde3eD5e6te9pBFKLh8="
+        }
+      ]
+    },
+    {
+      "Route": "police-reports-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\police-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "51240"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2lFgHy6rtb0hI3ACBDlDaAqLgde3eD5e6te9pBFKLh8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 19:41:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-2lFgHy6rtb0hI3ACBDlDaAqLgde3eD5e6te9pBFKLh8="
+        }
+      ]
+    },
+    {
+      "Route": "robbery-reports-page.fuern0d1v5.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\robbery-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "45409"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GfW5bY6ltcPRPLNr7GMQsg0Hcg0gvTeM1oIVOHJvgXQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 13:53:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fuern0d1v5"
+        },
+        {
+          "Name": "label",
+          "Value": "robbery-reports-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-GfW5bY6ltcPRPLNr7GMQsg0Hcg0gvTeM1oIVOHJvgXQ="
+        }
+      ]
+    },
+    {
+      "Route": "robbery-reports-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\robbery-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "45409"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GfW5bY6ltcPRPLNr7GMQsg0Hcg0gvTeM1oIVOHJvgXQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 13:53:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-GfW5bY6ltcPRPLNr7GMQsg0Hcg0gvTeM1oIVOHJvgXQ="
+        }
+      ]
+    },
+    {
+      "Route": "security-requests-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\security-requests-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "42518"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"p2vKhvNIQvTogYARecP4ttLDi4A7i6M6GSiDpvAWxQM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-p2vKhvNIQvTogYARecP4ttLDi4A7i6M6GSiDpvAWxQM="
+        }
+      ]
+    },
+    {
+      "Route": "security-requests-page.pgoai2qj1d.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\security-requests-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "42518"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"p2vKhvNIQvTogYARecP4ttLDi4A7i6M6GSiDpvAWxQM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 17:29:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pgoai2qj1d"
+        },
+        {
+          "Name": "label",
+          "Value": "security-requests-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-p2vKhvNIQvTogYARecP4ttLDi4A7i6M6GSiDpvAWxQM="
+        }
+      ]
+    },
+    {
+      "Route": "traffic-reports-page.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\traffic-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "31461"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SSj1e5JivMHVr75Wk/jdJx4PnVTQGduzhkAprnlnk2A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 13:49:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SSj1e5JivMHVr75Wk/jdJx4PnVTQGduzhkAprnlnk2A="
+        }
+      ]
+    },
+    {
+      "Route": "traffic-reports-page.n0iqyab63i.html",
+      "AssetFile": "D:\\CGP IPOMS\\Integrated-Police-Operations-Management-System-IPOMS-for-Sri-Lanka\\wwwroot\\traffic-reports-page.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "31461"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SSj1e5JivMHVr75Wk/jdJx4PnVTQGduzhkAprnlnk2A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 09 Apr 2025 13:49:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n0iqyab63i"
+        },
+        {
+          "Name": "label",
+          "Value": "traffic-reports-page.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SSj1e5JivMHVr75Wk/jdJx4PnVTQGduzhkAprnlnk2A="
+        }
+      ]
+    }
+  ]
+}
