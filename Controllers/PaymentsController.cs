@@ -14,7 +14,7 @@ public class PaymentsController : ControllerBase
         try
         {
             // Ensure Stripe API key is set
-            StripeConfiguration.ApiKey = "sk_test_51QozdgE4AvnS7JducVq4j1OXGnapXo5FEpzYRpvrc917vV9lDEX3XP7ikv6wmZRDCYACR0GM96c6uLHA9w9BZttG00ktqj6daQ"; // Replace with your test secret key
+            StripeConfiguration.ApiKey = "keyhere"; // Replace with your test secret key
 
             var options = new PaymentIntentCreateOptions
             {
